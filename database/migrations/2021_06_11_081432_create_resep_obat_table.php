@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateResepObatTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('resep_obat', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('id_obat');
+            $table->unsignedBigInteger('id_rekam_medis');
+            $table->integer('jumlah');
+            $table->date('tanggal');
+            $table->boolean('status')->default(0);
+            $table->foreign('id_obat')->references('id')->on('obat');
+            $table->foreign('id_rekam_medis')->references('id')->on('rekam_medis');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('resep_obat');
+    }
+}
