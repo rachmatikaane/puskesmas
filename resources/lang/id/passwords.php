@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'reset' => 'Kata sandi Anda telah direset!',
+    'reset' => 'Kata sandi anda telah direset!',
     'sent' => 'Kami telah mengirimkan email link reset password Anda!',
     'throttled' => 'Harap tunggu sebelum mencoba kembali.',
     'token' => 'Token penyetelan ulang sandi ini tidak valid.',
