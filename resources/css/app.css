@@ -1,13 +1,57 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
+
 @import url("https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Arya:wght@400;700&display=swap");
+
 * {
   font-family: "Arvo", serif;
 }
+
 .logo {
   position: absolute;
   top: -28px;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.nav-item {
+  padding: 0.5rem;
+  border-radius: 25px;
+  justify-content: center;
+}
+
+.nav-item.active,
+.nav-item .active {
+  background-color: #000;
+  border-radius: 0;
+}
+
+.nav-item > span {
+  display: none;
+  transition: all 2s ease-in-out;
+}
+
+.nav-item:hover > span {
+  display: block;
+}
+
+.nav-item > .nav-img {
+  max-width: 24px;
+}
+
+.nav-item:hover,
+.nav-item:active {
+  background-color: #3877ae;
+  border-radius: 25px;
+  width: max-content;
+  justify-content: start;
+  margin: 0 1rem 0 1rem;
+}
+
+.submenu.active,
+.submenu .active {
+  background-color: white;
+  color: black;
 }

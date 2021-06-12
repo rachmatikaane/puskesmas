@@ -1,128 +1,193 @@
-import ApplicationLogo from '../Components/ApplicationLogo';
-import Dropdown from '../Components/Dropdown';
-import NavLink from '../Components/NavLink';
-import React, { useEffect, useState } from 'react';
-import ResponsiveNavLink from '../Components/ResponsiveNavLink';
-import { InertiaLink } from '@inertiajs/inertia-react';
+import NavLink from "@/Components/NavLink";
+import NavLinkSub from "@/Components/NavLinkSub";
+import React from "react";
+import { InertiaLink } from "@inertiajs/inertia-react";
 
 export default function Authenticated({ auth, header, children }) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+  const navs = [
+    {
+      href: "pengguna",
+      src: "pengguna.svg",
+      text: "Pengguna",
+      render: (
+        <NavLinkSub
+          title="Pengguna"
+          menus={[
+            { href: "pengguna", text: "Data Pengguna" },
+            { href: "pengguna.buat", text: "Tambah Pengguna" },
+          ]}
+        />
+      ),
+    },
+    {
+      href: "pegawai",
+      src: "pegawai.svg",
+      text: "Pegawai",
+      render: (
+        <NavLinkSub
+          title="Pengguna"
+          menus={[
+            { href: "pengguna", text: "Data Pengguna" },
+            { href: "pengguna.buat", text: "Tambah Pengguna" },
+          ]}
+        />
+      ),
+    },
+    {
+      href: "antrian",
+      src: "antrian.svg",
+      text: "Antrian",
+      render: (
+        <NavLinkSub
+          title="Pengguna"
+          menus={[
+            { href: "pengguna", text: "Data Pengguna" },
+            { href: "pengguna.buat", text: "Tambah Pengguna" },
+          ]}
+        />
+      ),
+    },
+    {
+      href: "pasien",
+      src: "pasien.svg",
+      text: "Pasien",
+      render: (
+        <NavLinkSub
+          title="Pengguna"
+          menus={[
+            { href: "pengguna", text: "Data Pengguna" },
+            { href: "pengguna.buat", text: "Tambah Pengguna" },
+          ]}
+        />
+      ),
+    },
+    {
+      href: "obat",
+      src: "obat.svg",
+      text: "Obat",
+      render: (
+        <NavLinkSub
+          title="Pengguna"
+          menus={[
+            { href: "pengguna", text: "Data Pengguna" },
+            { href: "pengguna.buat", text: "Tambah Pengguna" },
+          ]}
+        />
+      ),
+    },
+    {
+      href: "kunjungan",
+      src: "kunjungan.svg",
+      text: "Kunjungan",
+      render: (
+        <NavLinkSub
+          title="Pengguna"
+          menus={[
+            { href: "pengguna", text: "Data Pengguna" },
+            { href: "pengguna.buat", text: "Tambah Pengguna" },
+          ]}
+        />
+      ),
+    },
+    {
+      href: "layanan",
+      src: "layanan.svg",
+      text: "Layanan",
+      render: (
+        <NavLinkSub
+          title="Pengguna"
+          menus={[
+            { href: "pengguna", text: "Data Pengguna" },
+            { href: "pengguna.buat", text: "Tambah Pengguna" },
+          ]}
+        />
+      ),
+    },
+    {
+      href: "rekam_medis",
+      src: "rekam_medis.svg",
+      text: "Rekam Medis",
+      render: (
+        <NavLinkSub
+          title="Pengguna"
+          menus={[
+            { href: "pengguna", text: "Data Pengguna" },
+            { href: "pengguna.buat", text: "Tambah Pengguna" },
+          ]}
+        />
+      ),
+    },
+    {
+      href: "pengaturan",
+      src: "cogwheel.svg",
+      text: "Pengaturan",
+      render: (
+        <NavLinkSub
+          title="Pengguna"
+          menus={[
+            { href: "pengguna", text: "Data Pengguna" },
+            { href: "pengguna.buat", text: "Tambah Pengguna" },
+          ]}
+        />
+      ),
+    },
+  ];
 
-    return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="bg-white border-b border-gray-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex">
-                            <div className="flex-shrink-0 flex items-center">
-                                <InertiaLink href="/">
-                                    <ApplicationLogo className="block h-9 w-auto text-gray-500" />
-                                </InertiaLink>
-                            </div>
+  const submenus = () => {
+    const selected = navs.find((n) => window.location.href.includes(n.href));
+    return selected && selected.render ? selected.render : <> </>;
+  };
 
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Dashboard
-                                </NavLink>
-                            </div>
-                        </div>
+  return (
+    <div
+      className="min-h-screen bg-gray-100 grid"
+      style={{ gridTemplateColumns: "1fr 4fr" }}
+    >
+      <nav
+        className="bg-primary text-white border-b border-gray-100 grid"
+        style={{ gridTemplateColumns: "64px auto" }}
+      >
+        <section className="flex flex-col gap-2 justify-start items-start z-10 pt-4">
+          {navs.map((n) => (
+            <NavLink
+              href={n.href}
+              src={n.src}
+              text={n.text}
+              key={n.text}
+              extra
+            ></NavLink>
+          ))}
 
-                        <div className="hidden sm:flex sm:items-center sm:ml-6">
-                            <div className="ml-3 relative">
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <span className="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-                                            >
-                                                {auth.user.name}
+          <InertiaLink
+            href={route("logout")}
+            method="post"
+            as="button"
+            className="nav-item flex gap-4 items-center w-full text-xs "
+          >
+            <img src={`/assets/logout.svg`} className="nav-img" />
+            <span>Keluar</span>
+          </InertiaLink>
+        </section>
 
-                                                <svg
-                                                    className="ml-2 -mr-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </Dropdown.Trigger>
+        <section className="bg-black pt-4">{submenus()}</section>
+      </nav>
 
-                                    <Dropdown.Content>
-                                        <Dropdown.Link href={route('logout')} method="post" as="button">
-                                            Log Out
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
-                                </Dropdown>
-                            </div>
-                        </div>
-
-                        <div className="-mr-2 flex items-center sm:hidden">
-                            <button
-                                onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
-                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
-                            >
-                                <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                    <path
-                                        className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        className={showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink
-                            method="post"
-                            href={route('dashboard')}
-                            active={route().current('dashboard')}
-                        >
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <div className="pt-4 pb-1 border-t border-gray-200">
-                        <div className="flex flex-col items-start px-4">
-                            <div className="font-medium text-base text-gray-800">{auth.user.name}</div>
-
-                            <div className="font-medium text-sm text-gray-500">{auth.user.email}</div>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink method="post" href={route('logout')}>
-                                Log Out
-                            </ResponsiveNavLink>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            {header && (
-                <header className="bg-white shadow">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
-                </header>
-            )}
-
-            <main>{children}</main>
-        </div>
-    );
+      <main>
+        <header className="bg-white shadow hidden lg:block">
+          <div className="max-w-7xl mx-auto p-4 flex gap-4">
+            <img src="/assets/puskesmas.png" className="w-10" />
+            <div>
+              <h1 className="text-xl uppercase font-bold font-arya">
+                Puskesmas Ciwaruga
+              </h1>
+              <p className="text-xs">
+                Jl. Waruga Raya No 4. Telp (+62) 212-020-3681
+              </p>
+            </div>
+          </div>
+        </header>
+        <section>{children}</section>
+      </main>
+    </div>
+  );
 }
