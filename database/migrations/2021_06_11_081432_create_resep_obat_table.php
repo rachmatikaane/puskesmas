@@ -20,8 +20,8 @@ class CreateResepObatTable extends Migration
             $table->integer('jumlah');
             $table->date('tanggal');
             $table->boolean('status')->default(0);
-            $table->foreign('id_obat')->references('id')->on('obat');
-            $table->foreign('id_rekam_medis')->references('id')->on('rekam_medis');
+            $table->foreign('id_obat')->references('id')->on('obat')->onDelete('cascade');
+            $table->foreign('id_rekam_medis')->references('id')->on('rekam_medis')->onDelete('cascade');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

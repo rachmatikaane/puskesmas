@@ -19,7 +19,7 @@ class CreateRekamMedisTable extends Migration
             $table->date('tanggal');
             $table->text('anamnesis')->nullable();
             $table->text('hasil_pemeriksaan')->nullable();
-            $table->foreign('id_pasien')->references('id')->on('pasien');
+            $table->foreign('id_pasien')->references('id')->on('pasien')->onDelete('cascade');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

@@ -20,5 +20,13 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin123'),
             'peran' => 'admin',
         ]);
+
+        DB::table('pelayanan')->insert([
+            [ 'nama' => 'Poli Anak' ],
+            [ 'nama' => 'Poli Umum' ],
+            [ 'nama' => 'Poli Gigi' ],
+            [ 'nama' => 'UGD' ],
+            [ 'nama' => 'Laboratorium' ],
+        ]);
     }
 }

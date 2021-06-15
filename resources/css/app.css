@@ -9,6 +9,22 @@
   font-family: "Arvo", serif;
 }
 
+.bg-crud {
+  background-image: url("/assets/crud.svg");
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
+  background-size: 30rem auto;
+}
+
+.main {
+  margin-left: 18rem;
+}
+.nav {
+  display: grid;
+  grid-template-columns: 64px auto;
+  min-width: 18rem;
+}
+
 .logo {
   position: absolute;
   top: -28px;

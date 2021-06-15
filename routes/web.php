@@ -4,6 +4,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\Http\Controllers\PegawaiController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,17 +21,17 @@ Route::get('/', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/pengguna', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('pengguna');
-
-Route::get('/pengguna/buat', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('pengguna.buat');
-
-Route::get('/pegawai', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('pegawai');
+Route::group([
+    "prefix" => 'pegawai', 
+    "middleware" => ['auth', 'verified']
+], function() {
+    Route::get('/', [PegawaiController::class, 'index'])->name('pegawai');
+    Route::get('/tambah', [PegawaiController::class, 'create'])->name('pegawai.create');
+    Route::post('/tambah', [PegawaiController::class, 'store'])->name('pegawai.store');
+    Route::get('/{id_pegawai}', [PegawaiController::class, 'edit'])->name('pegawai.edit');
+    Route::put('/{id_pegawai}', [PegawaiController::class, 'update'])->name('pegawai.update');
+    Route::delete('/{id_pegawai}', [PegawaiController::class, 'delete'])->name('pegawai.delete');
+});
 
 Route::get('/antrian', function () {
     return Inertia::render('Dashboard');

@@ -24,9 +24,9 @@ class CreateKunjunganTable extends Migration
             $table->string('jenis_pembayaran', 10);
             $table->integer('total_harga');
             $table->boolean('lunas')->default(0);
-            $table->foreign('id_nomor_antrian')->references('id')->on('nomor_antrian');
-            $table->foreign('id_pasien')->references('id')->on('pasien');
-            $table->foreign('id_pegawai')->references('id')->on('pegawai');
+            $table->foreign('id_nomor_antrian')->references('id')->on('nomor_antrian')->onDelete('cascade');
+            $table->foreign('id_pasien')->references('id')->on('pasien')->onDelete('cascade');
+            $table->foreign('id_pegawai')->references('id')->on('pegawai')->onDelete('cascade');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
