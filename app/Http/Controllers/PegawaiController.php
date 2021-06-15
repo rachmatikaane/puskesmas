@@ -14,7 +14,7 @@ use Inertia\Inertia;
 class PegawaiController extends Controller
 {
     public function index() {
-        $list_pegawai = Pegawai::all();
+        $list_pegawai = Pegawai::with('pengguna')->with('pelayanan')->get();
 
         return Inertia::render('Pegawai/Daftar', [
             "list_pegawai" => $list_pegawai
@@ -59,6 +59,13 @@ class PegawaiController extends Controller
     }
 
     public function delete(int $id_pegawai) {
-        return $id_pegawai . " Dihapus";
+        $pegawai = Pegawai::find($id_pegawai);
+        $pengguna = Pengguna::find($pegawai->id_pengguna);
+        if (!$pegawai || !$pengguna) {
+            return redirect()->back()->with('message', ["type" => "error", "text" => "Data pegawai tidak ditemukan"]);
+        }
+        
+        $pengguna->delete();
+        return redirect()->back()->with('message', 'Data pegawai berhasil dihapus');
     }
 }

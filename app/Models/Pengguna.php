@@ -35,4 +35,8 @@ class Pengguna extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function pegawai() {
+        return $this->hasOne(Pegawai::class, 'id_pengguna');
+    }
 }

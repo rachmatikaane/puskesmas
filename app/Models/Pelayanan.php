@@ -21,4 +21,8 @@ class Pelayanan extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function pegawai() {
+        return $this->hasMany(Pegawai::class, 'id_pelayanan');
+    }
 }

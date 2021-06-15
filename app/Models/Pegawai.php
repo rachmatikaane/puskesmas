@@ -24,4 +24,12 @@ class Pegawai extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function pengguna() {
+        return $this->belongsTo(Pengguna::class, 'id_pengguna');
+    }
+
+    public function pelayanan() {
+        return $this->belongsTo(Pelayanan::class, 'id_pelayanan');
+    }
 }

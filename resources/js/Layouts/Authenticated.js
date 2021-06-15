@@ -9,9 +9,16 @@ import ValidationErrors from "@/Components/ValidationErrors";
 export default function Authenticated(props) {
   React.useEffect(() => {
     if (props.message) {
-      toast.success(props.message, { id: "success-message" });
+      if (typeof props.message !== "string") {
+        switch (props.message.type) {
+          case "error":
+            toast.error(props.message.text, { id: "error-message" });
+        }
+      } else {
+        toast.success(props.message, { id: "success-message" });
+      }
     }
-  }, []);
+  }, [props.message]);
 
   React.useEffect(() => {
     if (props.errors && Object.keys(props.errors).length > 0) {
