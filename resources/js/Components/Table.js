@@ -70,12 +70,12 @@ function Pagination({ tableInstance }) {
   };
 
   return (
-    <div className="flex items-center justify-center gap-4 mt-4">
+    <div className="flex items-center justify-center gap-2 mt-4">
       {canPreviousPage && (
         <Button
           handleClick={() => previousPage()}
           disabled={!canPreviousPage}
-          className="bg-primary"
+          className="bg-primary hover:bg-opacity-75"
         >
           &#8249;
         </Button>
@@ -86,7 +86,9 @@ function Pagination({ tableInstance }) {
           <Button
             handleClick={() => gotoPage(p)}
             disabled={state.pageIndex === p}
-            className={state.pageIndex === p ? "" : "bg-primary"}
+            className={
+              state.pageIndex === p ? "" : "bg-primary hover:bg-opacity-75"
+            }
             key={p}
           >
             {p + 1}
@@ -100,7 +102,7 @@ function Pagination({ tableInstance }) {
         <Button
           handleClick={() => nextPage()}
           disabled={!canNextPage}
-          className="bg-primary"
+          className="bg-primary hover:bg-opacity-75"
         >
           &#8250;
         </Button>
@@ -111,6 +113,7 @@ function Pagination({ tableInstance }) {
 
 export default function Table({
   tableInstance,
+  editURL = "#",
   withSearch = true,
   withAction = true,
   withPagination = true,
@@ -180,7 +183,7 @@ export default function Table({
                   <td className="border-b border-primary p-2 text-xs">
                     <div className="flex gap-4">
                       <InertiaLink
-                        href={`/pegawai/${row.original.id}`}
+                        href={`${editURL}/${row.original.id}`}
                         as="button"
                         className="p-1 rounded-full hover:bg-gray-400 "
                       >
@@ -192,9 +195,13 @@ export default function Table({
                       >
                         <img src="/assets/delete.svg"></img>
                       </button>
-                      <button className="p-1 rounded-full hover:bg-gray-400 ">
+                      <InertiaLink
+                        href={`${editURL}/${row.original.id}/detail`}
+                        as="button"
+                        className="p-1 rounded-full hover:bg-gray-400 "
+                      >
                         <img src="/assets/detail.svg"></img>
-                      </button>
+                      </InertiaLink>
                     </div>
                   </td>
                 )}

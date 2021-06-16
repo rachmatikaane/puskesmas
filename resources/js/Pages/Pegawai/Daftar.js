@@ -62,7 +62,11 @@ export default function DaftarPegawai(props) {
       message={props.message ?? ""}
     >
       <div className="py-8">
-        <Table tableInstance={tableInstance} handleDelete={onHandleDelete} />
+        <Table
+          tableInstance={tableInstance}
+          editURL={`/pegawai`}
+          handleDelete={onHandleDelete}
+        />
       </div>
     </Authenticated>
   );

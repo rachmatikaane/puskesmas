@@ -14,7 +14,7 @@ export default function SuntingPegawai(props) {
     jabatan: props.pegawai.jabatan,
     peran: props.pegawai.pengguna.peran,
     username: props.pegawai.pengguna.username,
-    id_pelayanan: props.pegawai.id_pelayanan,
+    id_pelayanan: props.pegawai.id_pelayanan ?? undefined,
     password: "",
     password_confirmation: "",
   });
@@ -71,7 +71,7 @@ export default function SuntingPegawai(props) {
         className="px-8 py-4 flex flex-col gap-4 w-full lg:w-3/4"
       >
         <fieldset className="border border-solid border-black px-8 py-4 flex flex-col gap-4">
-          <legend className="text-lg -ml-4">Tambah Pegawai</legend>
+          <legend className="text-lg -ml-4">Edit Pegawai</legend>
           <div
             className="grid gap-4 items-center"
             style={{ gridTemplateColumns: "3fr 10fr" }}

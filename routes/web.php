@@ -31,6 +31,7 @@ Route::group([
     Route::get('/{id_pegawai}', [PegawaiController::class, 'edit'])->name('pegawai.edit');
     Route::put('/{id_pegawai}', [PegawaiController::class, 'update'])->name('pegawai.update');
     Route::delete('/{id_pegawai}', [PegawaiController::class, 'delete'])->name('pegawai.delete');
+    Route::get('/{id_pegawai}/detail', [PegawaiController::class, 'show'])->name('pegawai.show');
 });
 
 Route::get('/antrian', function () {

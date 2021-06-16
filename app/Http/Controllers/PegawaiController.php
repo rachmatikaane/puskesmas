@@ -87,7 +87,7 @@ class PegawaiController extends Controller
             $pegawai->save();
         });
 
-        return redirect()->route('pegawai', ['message' => 'Data pegawai berhasil diubah']);
+        return redirect()->route('pegawai')->with('message', 'Data pegawai berhasil diubah');
     }
 
     public function delete(int $id_pegawai) {
@@ -98,6 +98,14 @@ class PegawaiController extends Controller
         }
         
         $pengguna->delete();
-        return redirect()->back()->with('message', 'Data pegawai berhasil dihapus');
+        return redirect()->route('pegawai')->with('message', 'Data pegawai berhasil dihapus');
+    }
+
+    public function show(int $id_pegawai) {
+        $pegawai = Pegawai::with('pengguna')->with('pelayanan')->where('id', $id_pegawai)->first();
+
+        return Inertia::render('Pegawai/Detail', [
+            "pegawai" => $pegawai
+        ]);    
     }
 }
