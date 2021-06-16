@@ -14,7 +14,7 @@ export default function TambahPegawai(props) {
     jabatan: "",
     peran: "admin",
     username: "",
-    id_pelayanan: "",
+    id_pelayanan: undefined,
     password: "",
     password_confirmation: "",
   });
@@ -26,21 +26,6 @@ export default function TambahPegawai(props) {
   }, []);
 
   const onHandleChange = (event) => {
-    if (event.target.name === "peran") {
-      if (event.target.value === "medis") {
-        setDPelayanan(true);
-        setData(
-          "id_pelayanan",
-          props.list_pelayanan && props.list_pelayanan.length > 0
-            ? props.list_pelayanan[0].id
-            : ""
-        );
-      } else {
-        setData("id_pelayanan", "");
-        setDPelayanan(false);
-      }
-    }
-
     setData(
       event.target.name,
       event.target.type === "checkbox"
@@ -54,6 +39,19 @@ export default function TambahPegawai(props) {
 
     post(route("pegawai.store"));
   };
+
+  React.useEffect(() => {
+    const defaultPelayanan =
+      props.list_pelayanan && props.list_pelayanan.length > 0
+        ? props.list_pelayanan[0].id
+        : undefined;
+
+    setDPelayanan(data.peran === "medis");
+    setData(
+      "id_pelayanan",
+      data.peran === "medis" ? defaultPelayanan : undefined
+    );
+  }, [data.peran]);
 
   return (
     <Authenticated
@@ -135,11 +133,10 @@ export default function TambahPegawai(props) {
               className="block w-full"
               autoComplete="id_pelayanan"
               handleChange={onHandleChange}
-              disabled={!dPelayanan}
               required={dPelayanan}
               options={props.list_pelayanan.map((p) => ({
                 text: p.nama,
-                value: parseInt(p.id),
+                value: p.id,
               }))}
             />
           </div>

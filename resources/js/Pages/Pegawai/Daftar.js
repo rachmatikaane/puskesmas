@@ -1,8 +1,41 @@
+import "regenerator-runtime/runtime";
+
 import Authenticated from "@/Layouts/Authenticated";
-import { InertiaLink } from "@inertiajs/inertia-react";
-import { Inertia } from "@inertiajs/inertia";
 import React from "react";
-import { useTable } from "react-table";
+import { useTable, useGlobalFilter, useAsyncDebounce } from "react-table";
+import { Inertia } from "@inertiajs/inertia";
+import { getPeran } from "@/Utilities/misc";
+
+// Define a default UI for filtering
+function GlobalFilter({
+  preGlobalFilteredRows,
+  globalFilter,
+  setGlobalFilter,
+}) {
+  const count = preGlobalFilteredRows.length;
+  const [value, setValue] = React.useState(globalFilter);
+  const onChange = useAsyncDebounce((value) => {
+    setGlobalFilter(value || undefined);
+  }, 200);
+
+  return (
+    <span>
+      Search:{" "}
+      <input
+        value={value || ""}
+        onChange={(e) => {
+          setValue(e.target.value);
+          onChange(e.target.value);
+        }}
+        placeholder={`${count} records...`}
+        style={{
+          fontSize: "1.1rem",
+          border: "0",
+        }}
+      />
+    </span>
+  );
+}
 
 export default function DaftarPegawai(props) {
   const columns = React.useMemo(
@@ -17,15 +50,16 @@ export default function DaftarPegawai(props) {
       },
       {
         Header: "Bagian",
-        accessor: "pengguna.peran",
+        accessor: (originalRow) => {
+          return `${getPeran(originalRow.pengguna.peran)}${
+            originalRow.pelayanan ? ` (${originalRow.pelayanan.nama})` : ""
+          }`;
+        },
+        id: "pengguna.peran",
       },
       {
         Header: "Jabatan",
         accessor: "jabatan",
-      },
-      {
-        Header: "Layanan",
-        accessor: "pelayanan.nama",
       },
       {
         Header: "Username",
@@ -34,11 +68,20 @@ export default function DaftarPegawai(props) {
     ],
     []
   );
-
-  const tableInstance = useTable({ columns, data: props.list_pegawai });
-
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    tableInstance;
+  const tableInstance = useTable(
+    { columns, data: props.list_pegawai, defaultColumn: columns },
+    useGlobalFilter
+  );
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    preGlobalFilteredRows,
+    setGlobalFilter,
+    state,
+  } = tableInstance;
 
   const _handleDelete = (id) => {
     Inertia.delete(
@@ -55,10 +98,6 @@ export default function DaftarPegawai(props) {
     );
   };
 
-  React.useEffect(() => {
-    console.log(props.message);
-  }, [props.message]);
-
   return (
     <Authenticated
       auth={props.auth}
@@ -67,9 +106,14 @@ export default function DaftarPegawai(props) {
     >
       <div className="py-8">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+          <GlobalFilter
+            preGlobalFilteredRows={preGlobalFilteredRows}
+            globalFilter={state.globalFilter}
+            setGlobalFilter={setGlobalFilter}
+          />
           <table
             {...getTableProps()}
-            className="border border-black border-collapse w-full"
+            className="border border-primary border-collapse w-full"
           >
             <thead>
               {headerGroups.map((headerGroup) => (
@@ -77,12 +121,12 @@ export default function DaftarPegawai(props) {
                   {headerGroup.headers.map((column) => (
                     <th
                       {...column.getHeaderProps()}
-                      className="border-b border-black p-3 bg-primary text-white text-left text-sm"
+                      className="border-b border-primary p-2 bg-primary text-white text-left text-sm"
                     >
                       {column.render("Header")}
                     </th>
                   ))}
-                  <th className="border-b border-black p-3 bg-primary text-white text-left text-sm">
+                  <th className="border-b border-primary p-2 bg-primary text-white text-left text-sm">
                     Aksi
                   </th>
                 </tr>
@@ -97,24 +141,24 @@ export default function DaftarPegawai(props) {
                       return (
                         <td
                           {...cell.getCellProps()}
-                          className="border-b border-black p-3 text-xs"
+                          className="border-b border-primary p-2 text-xs"
                         >
                           {cell.render("Cell")}
                         </td>
                       );
                     })}
-                    <td className="border-b border-black p-3 text-xs">
+                    <td className="border-b border-primary p-2 text-xs">
                       <div className="flex gap-4">
-                        <button className="p-1 rounded-full hover:bg-gray-200 ">
+                        <button className="p-1 rounded-full hover:bg-gray-400 ">
                           <img src="/assets/edit.svg"></img>
                         </button>
                         <button
-                          className="p-1 rounded-full hover:bg-gray-200 "
+                          className="p-1 rounded-full hover:bg-gray-400 "
                           onClick={() => _handleDelete(row.original.id)}
                         >
                           <img src="/assets/delete.svg"></img>
                         </button>
-                        <button className="p-1 rounded-full hover:bg-gray-200 ">
+                        <button className="p-1 rounded-full hover:bg-gray-400 ">
                           <img src="/assets/detail.svg"></img>
                         </button>
                       </div>
