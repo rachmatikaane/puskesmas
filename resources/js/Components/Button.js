@@ -6,7 +6,7 @@ export default function Button({
   processing,
   disabled = false,
   children,
-  handleClick,
+  handleClick = () => {},
 }) {
   return (
     <button

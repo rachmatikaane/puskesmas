@@ -6,6 +6,7 @@ use App\Models\Pegawai;
 use App\Models\Pengguna;
 use App\Models\Pelayanan;
 use App\Http\Requests\StorePegawaiRequest;
+use App\Http\Requests\UpdatePegawaiRequest;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -51,11 +52,42 @@ class PegawaiController extends Controller
     }
 
     public function edit(int $id_pegawai) {
-        return $id_pegawai;
+        $pegawai = Pegawai::with('pengguna')->with('pelayanan')->where('id', $id_pegawai)->first();
+        $list_pelayanan = Pelayanan::all();
+
+        return Inertia::render('Pegawai/Sunting', [
+            "pegawai" => $pegawai,
+            "list_pelayanan" => $list_pelayanan
+        ]);    
     }
 
-    public function update(Request $request, int $id_pegawai) {
-        return $id_pegawai . " Diupdate";
+    public function update(UpdatePegawaiRequest $request, int $id_pegawai) {
+        $validated = $request->validated();
+
+        $pegawai = Pegawai::find($id_pegawai);
+        if (!$pegawai) {
+            return redirect()->route('pegawai', ['message' => [
+                'type' => 'error',
+                'text' => 'Data pegawai tidak ditemukan'
+            ]]);
+        }
+        $pengguna = Pengguna::find($pegawai->id_pengguna);
+
+        DB::transaction(function () use ($request, $pegawai, $pengguna) {
+            $pengguna->username = $request->username;
+            if ($request->password) {
+                $pengguna->password = $request->password;
+            }
+            $pengguna->peran = $request->peran;
+            $pengguna->save();
+
+            $pegawai->id_pelayanan = $request->id_pelayanan;
+            $pegawai->nama = $request->nama;
+            $pegawai->jabatan = $request->jabatan;
+            $pegawai->save();
+        });
+
+        return redirect()->route('pegawai', ['message' => 'Data pegawai berhasil diubah']);
     }
 
     public function delete(int $id_pegawai) {

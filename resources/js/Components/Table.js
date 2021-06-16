@@ -4,6 +4,7 @@ import Button from "@/Components/Button";
 import Input from "@/Components/Input";
 import React from "react";
 import { useAsyncDebounce } from "react-table";
+import { InertiaLink } from "@inertiajs/inertia-react";
 
 function GlobalFilter({
   preGlobalFilteredRows,
@@ -178,9 +179,13 @@ export default function Table({
                 {withAction && (
                   <td className="border-b border-primary p-2 text-xs">
                     <div className="flex gap-4">
-                      <button className="p-1 rounded-full hover:bg-gray-400 ">
+                      <InertiaLink
+                        href={`/pegawai/${row.original.id}`}
+                        as="button"
+                        className="p-1 rounded-full hover:bg-gray-400 "
+                      >
                         <img src="/assets/edit.svg"></img>
-                      </button>
+                      </InertiaLink>
                       <button
                         className="p-1 rounded-full hover:bg-gray-400 "
                         onClick={() => handleDelete(row.original.id)}
