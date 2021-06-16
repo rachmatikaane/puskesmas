@@ -10,6 +10,8 @@ export const getPeran = (id) => {
       return "Pembayaran";
     case "antrian":
       return "Antrian";
+    case "apoteker":
+      return "Apoteker";
     default:
       return "";
   }

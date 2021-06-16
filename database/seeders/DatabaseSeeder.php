@@ -28,5 +28,7 @@ class DatabaseSeeder extends Seeder
             [ 'nama' => 'UGD' ],
             [ 'nama' => 'Laboratorium' ],
         ]);
+
+        \App\Models\Pegawai::factory()->count(50)->create();
     }
 }

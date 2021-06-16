@@ -118,6 +118,7 @@ export default function TambahPegawai(props) {
                 { text: "Medis", value: "medis" },
                 { text: "Pembayaran", value: "pembayaran" },
                 { text: "Antrian", value: "antrian" },
+                { text: "Apoteker", value: "apoteker" },
               ]}
             />
           </div>
