@@ -20,6 +20,20 @@ export default function Navbar() {
       ),
     },
     {
+      href: "layanan",
+      src: "layanan.svg",
+      text: "Layanan",
+      render: (
+        <NavLinkSub
+          title="Layanan"
+          menus={[
+            { href: "layanan", text: "Data Layanan" },
+            { href: "layanan.create", text: "Tambah Layanan" },
+          ]}
+        />
+      ),
+    },
+    {
       href: "antrian",
       src: "antrian.svg",
       text: "Antrian",
@@ -65,20 +79,6 @@ export default function Navbar() {
       href: "kunjungan",
       src: "kunjungan.svg",
       text: "Kunjungan",
-      render: (
-        <NavLinkSub
-          title="pegawai"
-          menus={[
-            { href: "pegawai", text: "Data pegawai" },
-            { href: "pegawai.create", text: "Tambah pegawai" },
-          ]}
-        />
-      ),
-    },
-    {
-      href: "layanan",
-      src: "layanan.svg",
-      text: "Layanan",
       render: (
         <NavLinkSub
           title="pegawai"

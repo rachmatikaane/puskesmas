@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\PelayananController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,19 @@ Route::group([
     Route::get('/{id_pegawai}/detail', [PegawaiController::class, 'show'])->name('pegawai.show');
 });
 
+Route::group([
+    "prefix" => 'layanan',
+    "middleware" => ['auth', 'verified']
+], function() {
+    Route::get('/', [PelayananController::class, 'index'])->name('layanan');
+    Route::get('/tambah', [PelayananController::class, 'create'])->name('layanan.create');
+    Route::post('/tambah', [PelayananController::class, 'store'])->name('layanan.store');
+    Route::get('/{id_pelayanan}', [PelayananController::class, 'edit'])->name('layanan.edit');
+    Route::put('/{id_pelayanan}', [PelayananController::class, 'update'])->name('layanan.update');
+    Route::delete('/{id_pelayanan}', [PelayananController::class, 'delete'])->name('layanan.delete');
+    Route::get('/{id_pelayanan}/detail', [PelayananController::class, 'show'])->name('layanan.show');
+});
+
 Route::get('/antrian', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('antrian');
@@ -49,10 +63,6 @@ Route::get('/obat', function () {
 Route::get('/kunjungan', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('kunjungan');
-
-Route::get('/layanan', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('layanan');
 
 Route::get('/rekam-medis', function () {
     return Inertia::render('Dashboard');
