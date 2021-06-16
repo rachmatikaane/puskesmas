@@ -50,7 +50,9 @@ export default function DaftarPegawai(props) {
   );
 
   const onHandleDelete = (id) => {
-    Inertia.delete(`/pegawai/${id}`);
+    if (window.confirm(`Hapus pegawai dengan id ${id}?`)) {
+      Inertia.delete(`/pegawai/${id}`);
+    }
   };
 
   return (
