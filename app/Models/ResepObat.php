@@ -18,7 +18,7 @@ class ResepObat extends Model
      */
      protected $fillable = [
         'id_obat',
-        'id_obat',
+        'id_kunjungan',
         'jumlah',
         'tanggal',
         'status',
