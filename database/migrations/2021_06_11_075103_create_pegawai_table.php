@@ -15,7 +15,7 @@ class CreatePegawaiTable extends Migration
     {
         Schema::create('pegawai', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_pelayanan');
+            $table->unsignedBigInteger('id_pelayanan')->nullable();
             $table->unsignedBigInteger('id_pengguna');
             $table->string('nama', 100);
             $table->string('jabatan', 100);

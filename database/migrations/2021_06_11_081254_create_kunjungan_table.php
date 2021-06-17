@@ -18,7 +18,7 @@ class CreateKunjunganTable extends Migration
             $table->unsignedBigInteger('id_nomor_antrian');
             $table->unsignedBigInteger('id_pasien');
             $table->unsignedBigInteger('id_pegawai');
-            $table->unsignedBigInteger('id_rekam_medis');
+            $table->unsignedBigInteger('id_rekam_medis')->nullable();
             $table->date('tanggal');
             $table->time('waktu');
             $table->boolean('status')->default(0);
