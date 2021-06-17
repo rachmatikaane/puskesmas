@@ -30,5 +30,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         \App\Models\Pegawai::factory()->count(50)->create();
+        \App\Models\Pasien::factory()->count(50)->create();
+        \App\Models\Kunjungan::factory()->count(50)->create();
+        \App\Models\Obat::factory()->count(50)->create();
+        \App\Models\ResepObat::factory()->count(50)->create();
     }
 }
