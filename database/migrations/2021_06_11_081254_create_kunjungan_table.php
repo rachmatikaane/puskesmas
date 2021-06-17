@@ -18,6 +18,7 @@ class CreateKunjunganTable extends Migration
             $table->unsignedBigInteger('id_nomor_antrian');
             $table->unsignedBigInteger('id_pasien');
             $table->unsignedBigInteger('id_pegawai');
+            $table->unsignedBigInteger('id_rekam_medis');
             $table->date('tanggal');
             $table->time('waktu');
             $table->boolean('status')->default(0);
@@ -27,6 +28,7 @@ class CreateKunjunganTable extends Migration
             $table->foreign('id_nomor_antrian')->references('id')->on('nomor_antrian')->onDelete('cascade');
             $table->foreign('id_pasien')->references('id')->on('pasien')->onDelete('cascade');
             $table->foreign('id_pegawai')->references('id')->on('pegawai')->onDelete('cascade');
+            $table->foreign('id_rekam_medis')->references('id')->on('rekam_medis')->onDelete('cascade');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

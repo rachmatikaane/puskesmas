@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRekamMedisTable extends Migration
+class CreatePenggunaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateRekamMedisTable extends Migration
      */
     public function up()
     {
-        Schema::create('rekam_medis', function (Blueprint $table) {
+        Schema::create('pengguna', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_pasien');
-            $table->date('tanggal');
-            $table->text('anamnesis')->nullable();
-            $table->text('hasil_pemeriksaan')->nullable();
-            $table->foreign('id_pasien')->references('id')->on('pasien')->onDelete('cascade');
+            $table->string('username', 100)->unique();
+            $table->string('password', 100);
+            $table->string('peran', 100);
+            $table->rememberToken();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
@@ -32,6 +31,6 @@ class CreateRekamMedisTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rekam_medis');
+        Schema::dropIfExists('pengguna');
     }
 }
