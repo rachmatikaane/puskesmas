@@ -16,8 +16,9 @@ class CreateJadwalTable extends Migration
         Schema::create('jadwal', function (Blueprint $table) {
             $table->id();
             $table->string('hari', 8);
-            $table->time('jam_mulai');
-            $table->time('jam_selesai');
+            $table->time('jam_mulai')->nullable();
+            $table->time('jam_selesai')->nullable();
+            $table->boolean('libur')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

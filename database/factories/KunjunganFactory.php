@@ -38,7 +38,7 @@ class KunjunganFactory extends Factory
 
         return [
             'id_nomor_antrian' => $antrian->id,
-            'id_pasien' => $this->faker->numberBetween($pasien_ids),
+            'id_pasien' => $this->faker->randomElement($pasien_ids),
             'id_pegawai' => $this->faker->randomElement($medis_ids),
             'id_rekam_medis' => $rekam_medis->id,
             'tanggal' => $this->faker->date(),

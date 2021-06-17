@@ -15,6 +15,7 @@ class CreateKontakTable extends Migration
     {
         Schema::create('kontak', function (Blueprint $table) {
             $table->id();
+            $table->text('icon');
             $table->string('nama', 100);
             $table->text('isi');
             $table->string('url', 100)->nullable();
