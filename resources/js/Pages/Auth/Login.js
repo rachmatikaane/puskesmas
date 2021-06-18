@@ -82,70 +82,72 @@ export default function Login({ status }) {
   };
 
   return (
-    <div className="min-h-screen flex items-center bg-gray-100">
-      <section className="w-full p-6 flex justify-center">
-        <form
-          onSubmit={submit}
-          className="relative p-16 w-full lg:w-6/12"
-          style={{ backgroundColor: "#E6ECF0" }}
-        >
-          <InertiaLink href="/">
-            <ApplicationLogo className="logo w-16" fill="#005096" />
-          </InertiaLink>
+    <>
+      <div className="min-h-screen flex items-center bg-gray-100">
+        <img
+          src="/assets/login.png"
+          className="hidden lg:max-h-screen lg:block"
+        />
+        <section className="w-full p-6 flex justify-center">
+          <form
+            onSubmit={submit}
+            className="relative p-16 w-full lg:w-6/12"
+            style={{ backgroundColor: "#E6ECF0" }}
+          >
+            <InertiaLink href="/">
+              <ApplicationLogo className="logo w-16" fill="#005096" />
+            </InertiaLink>
 
-          <div>
-            <Label forInput="username" value="Username" />
+            <div>
+              <Label forInput="username" value="Username" />
 
-            <Input
-              type="text"
-              name="username"
-              value={data.username}
-              className="mt-1 block w-full"
-              autoComplete="username"
-              isFocused={true}
-              handleChange={onHandleChange}
-            />
-          </div>
-
-          <div className="mt-4">
-            <Label forInput="password" value="Password" />
-
-            <Input
-              type="password"
-              name="password"
-              value={data.password}
-              className="mt-1 block w-full"
-              autoComplete="current-password"
-              handleChange={onHandleChange}
-            />
-          </div>
-
-          <div className="block mt-4">
-            <label className="flex items-center">
-              <Checkbox
-                name="remember"
-                value={data.remember}
+              <Input
+                type="text"
+                name="username"
+                value={data.username}
+                className="mt-1 block w-full"
+                autoComplete="username"
+                isFocused={true}
                 handleChange={onHandleChange}
               />
+            </div>
 
-              <span className="ml-2 text-sm text-gray-600">Remember me</span>
-            </label>
-          </div>
+            <div className="mt-4">
+              <Label forInput="password" value="Password" />
 
-          <div className="flex items-center justify-end mt-4">
-            <Button
-              className="mx-auto w-3/4 text-center bg-blue-400"
-              processing={processing}
-            >
-              Login
-            </Button>
-          </div>
-        </form>
-      </section>
-      <img
-        src="/assets/login.png"
-        className="hidden lg:max-h-screen lg:block"
-      />
+              <Input
+                type="password"
+                name="password"
+                value={data.password}
+                className="mt-1 block w-full"
+                autoComplete="current-password"
+                handleChange={onHandleChange}
+              />
+            </div>
+
+            <div className="block mt-4">
+              <label className="flex items-center">
+                <Checkbox
+                  name="remember"
+                  value={data.remember}
+                  handleChange={onHandleChange}
+                />
+
+                <span className="ml-2 text-sm text-gray-600">Remember me</span>
+              </label>
+            </div>
+
+            <div className="flex items-center justify-end mt-4">
+              <Button
+                className="mx-auto w-3/4 text-center bg-blue-400"
+                processing={processing}
+              >
+                Login
+              </Button>
+            </div>
+          </form>
+        </section>
+      </div>
       <ToastContainer
         position="top-center"
         autoClose={false}
@@ -155,6 +157,6 @@ export default function Login({ status }) {
         pauseOnFocusLoss
         draggable
       />
-    </div>
+    </>
   );
 }
