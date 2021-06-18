@@ -10,6 +10,7 @@ use App\Http\Requests\UpdatePegawaiRequest;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class PegawaiController extends Controller

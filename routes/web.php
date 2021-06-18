@@ -20,12 +20,20 @@ use App\Http\Controllers\AntrianController;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Dashboard');
+    if (Auth::user()->peran == 'admin') {
+        return redirect()->route('pegawai');
+    }
+
+    if (Auth::user()->peran == 'antrian') {
+        return redirect()->route('antrian');
+    }
+
+    return redirect()->route('pegawai');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::group([
     "prefix" => 'pegawai', 
-    "middleware" => ['auth', 'verified']
+    "middleware" => ['auth', 'verified', 'role:admin']
 ], function() {
     Route::get('/', [PegawaiController::class, 'index'])->name('pegawai');
     Route::get('/tambah', [PegawaiController::class, 'create'])->name('pegawai.create');
@@ -38,7 +46,7 @@ Route::group([
 
 Route::group([
     "prefix" => 'layanan',
-    "middleware" => ['auth', 'verified']
+    "middleware" => ['auth', 'verified', 'role:admin']
 ], function() {
     Route::get('/', [PelayananController::class, 'index'])->name('layanan');
     Route::get('/tambah', [PelayananController::class, 'create'])->name('layanan.create');
@@ -51,7 +59,7 @@ Route::group([
 
 Route::group([
     "prefix" => 'antrian',
-    "middleware" => ['auth', 'verified']
+    "middleware" => ['auth', 'verified', 'role:admin|antrian']
 ], function() {
     Route::get('/', [AntrianController::class, 'index'])->name('antrian');
     Route::post('/ambil', [AntrianController::class, 'ambil'])->name('antrian.ambil');

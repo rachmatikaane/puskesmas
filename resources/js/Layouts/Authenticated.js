@@ -30,7 +30,7 @@ export default function Authenticated(props) {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Navbar />
+      <Navbar auth={props.auth} />
 
       <main className={`min-h-screen main ${props.header}`}>
         <Header />

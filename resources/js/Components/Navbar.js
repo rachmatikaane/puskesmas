@@ -3,7 +3,7 @@ import NavLinkSub from "@/Components/NavLinkSub";
 import React from "react";
 import { InertiaLink } from "@inertiajs/inertia-react";
 
-export default function Navbar() {
+export default function Navbar(props) {
   const navs = [
     {
       href: "pegawai",
@@ -110,6 +110,10 @@ export default function Navbar() {
       ),
     },
   ];
+  const userAccess = {
+    admin: [0, 1, 2, 3, 4, 5, 6, 7],
+    antrian: [2, 7],
+  };
 
   const submenus = () => {
     const selected = navs.find((n) => window.location.href.includes(n.href));
@@ -119,15 +123,18 @@ export default function Navbar() {
   return (
     <nav className="bg-primary text-white border-b border-gray-100 fixed min-h-screen nav">
       <section className="flex flex-col gap-2 justify-start items-start z-10 pt-4">
-        {navs.map((n) => (
-          <NavLink
-            href={n.href}
-            src={n.src}
-            text={n.text}
-            key={n.text}
-            extra
-          ></NavLink>
-        ))}
+        {navs.map(
+          (n, i) =>
+            userAccess[props.auth.user.peran].includes(i) && (
+              <NavLink
+                href={n.href}
+                src={n.src}
+                text={n.text}
+                key={n.text}
+                extra
+              ></NavLink>
+            )
+        )}
 
         <InertiaLink
           href={route("logout")}

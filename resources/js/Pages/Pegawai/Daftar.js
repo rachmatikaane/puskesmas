@@ -8,6 +8,10 @@ import Table from "@/Components/Table";
 import { getPeran } from "@/Utilities/misc";
 
 export default function DaftarPegawai(props) {
+  React.useEffect(() => {
+    console.log(props.auth);
+  }, []);
+
   const columns = React.useMemo(
     () => [
       {
