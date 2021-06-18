@@ -30,6 +30,7 @@
     },
     "dependencies": {
         "react-table": "^7.7.0",
-        "react-toastify": "^7.0.4"
+        "react-toastify": "^7.0.4",
+        "recharts": "^2.0.9"
     }
 }

@@ -16,6 +16,13 @@
   background-size: 30rem auto;
 }
 
+.bg-dokter {
+  background-image: url("/assets/dokter-bg.png");
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
+  background-size: 10rem auto;
+}
+
 .search {
   background-image: url("/assets/search.svg");
   background-repeat: no-repeat;

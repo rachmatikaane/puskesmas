@@ -25,4 +25,8 @@ class Pelayanan extends Model
     public function pegawai() {
         return $this->hasMany(Pegawai::class, 'id_pelayanan');
     }
+
+    public function kunjungan() {
+        return $this->hasManyThrough(Kunjungan::class, Pegawai::class, 'id_pelayanan', 'id_pegawai');
+    }
 }
