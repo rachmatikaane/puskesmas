@@ -23,6 +23,13 @@
   background-size: 10rem auto;
 }
 
+.bg-antrian {
+  background-image: url("/assets/antrian-bg.png");
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
+  background-size: 15rem auto;
+}
+
 .search {
   background-image: url("/assets/search.svg");
   background-repeat: no-repeat;

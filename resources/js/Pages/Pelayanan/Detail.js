@@ -23,10 +23,6 @@ export default function DaftarPegawai(props) {
     "Jumlah Pasien": p.value,
   }));
 
-  React.useEffect(() => {
-    console.log(props);
-  }, []);
-
   return (
     <Authenticated
       auth={props.auth}

@@ -6,6 +6,7 @@ use Inertia\Inertia;
 
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PelayananController;
+use App\Http\Controllers\AntrianController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,9 +49,13 @@ Route::group([
     Route::get('/{id_pelayanan}/detail', [PelayananController::class, 'show'])->name('layanan.show');
 });
 
-Route::get('/antrian', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('antrian');
+Route::group([
+    "prefix" => 'antrian',
+    "middleware" => ['auth', 'verified']
+], function() {
+    Route::get('/', [AntrianController::class, 'index'])->name('antrian');
+    Route::post('/ambil', [AntrianController::class, 'ambil'])->name('antrian.ambil');
+});
 
 Route::get('/pasien', function () {
     return Inertia::render('Dashboard');

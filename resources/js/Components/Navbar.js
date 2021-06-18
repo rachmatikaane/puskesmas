@@ -37,15 +37,7 @@ export default function Navbar() {
       href: "antrian",
       src: "antrian.svg",
       text: "Antrian",
-      render: (
-        <NavLinkSub
-          title="pegawai"
-          menus={[
-            { href: "pegawai", text: "Data pegawai" },
-            { href: "pegawai.create", text: "Tambah pegawai" },
-          ]}
-        />
-      ),
+      render: <NavLinkSub title="Antrian" menus={[]} />,
     },
     {
       href: "pasien",
