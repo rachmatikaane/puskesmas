@@ -20,7 +20,6 @@ export default function SuntingPegawai(props) {
   });
 
   React.useEffect(() => {
-    console.log(props.pegawai);
     return () => {
       reset();
     };

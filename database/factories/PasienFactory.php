@@ -28,7 +28,7 @@ class PasienFactory extends Factory
             'tempat_lahir' => $this->faker->city(),
             'tanggal_lahir' => $this->faker->date('Y-m-d', '-6 years'),
             'jenis_kelamin' => $this->faker->randomElement(['L', 'P']),
-            'gol_darah' => $this->faker->randomElement(['A', 'B', 'O']),
+            'gol_darah' => $this->faker->randomElement(['A', 'B', 'AB', 'O']),
             'alamat' => $this->faker->address(),
             'kecamatan' => $this->faker->state(),
             'kelurahan' => $this->faker->country(),
@@ -36,7 +36,7 @@ class PasienFactory extends Factory
             'provinsi' => $this->faker->state(),
             'kontak' => $this->faker->numerify('08##########'),
             'pekerjaan' => $this->faker->jobTitle(),
-            'status_menikah' => $this->faker->randomElement(['Menikah', 'Belum Menikah']),
+            'status_menikah' => $this->faker->randomElement(['Belum Kawin', 'Kawin', 'Cerai Hidup', 'Cerai Mati']),
             'no_bpjs' => $this->faker->randomElement([$this->faker->bothify('?#?##?#?#??##?', null)]),
         ];
     }

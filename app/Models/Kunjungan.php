@@ -30,4 +30,20 @@ class Kunjungan extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function nomor_antrian() {
+        return $this->belongsTo(Antrian::class, 'id_nomor_antrian');
+    }
+
+    public function pasien() {
+        return $this->belongsTo(Pasien::class, 'id_pasien');
+    }
+
+    public function pegawai() {
+        return $this->belongsTo(Pegawai::class, 'id_pegawai');
+    }
+
+    public function rekam_medis() {
+        return $this->belongsTo(RekamMedis::class, 'id_rekam_medis');
+    }
 }

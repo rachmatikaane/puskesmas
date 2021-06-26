@@ -8,7 +8,7 @@ import Button from "@/Components/Button";
 
 import { getPeran } from "@/Utilities/misc";
 
-export default function DaftarPegawai(props) {
+export default function DetailPegawai(props) {
   const onHandleDelete = (id) => {
     if (window.confirm(`Hapus pegawai?`)) {
       Inertia.delete(`/pegawai/${id}`);

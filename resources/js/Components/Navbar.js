@@ -37,7 +37,23 @@ export default function Navbar(props) {
       href: "antrian",
       src: "antrian.svg",
       text: "Antrian",
-      render: <NavLinkSub title="Antrian" menus={[]} />,
+      render: (
+        <NavLinkSub
+          title="Antrian"
+          menus={[
+            {
+              href: "antrian",
+              text: "Ambil Antrian",
+              condition: ["admin", "antrian"].includes(props.auth.peran),
+            },
+            {
+              href: "antrian.list",
+              text: "Daftar Antrian",
+              condition: ["admin", "pendaftaran"].includes(props.auth.peran),
+            },
+          ]}
+        />
+      ),
     },
     {
       href: "pasien",
@@ -45,24 +61,10 @@ export default function Navbar(props) {
       text: "Pasien",
       render: (
         <NavLinkSub
-          title="pegawai"
+          title="Pasien"
           menus={[
-            { href: "pegawai", text: "Data pegawai" },
-            { href: "pegawai.create", text: "Tambah pegawai" },
-          ]}
-        />
-      ),
-    },
-    {
-      href: "obat",
-      src: "obat.svg",
-      text: "Obat",
-      render: (
-        <NavLinkSub
-          title="pegawai"
-          menus={[
-            { href: "pegawai", text: "Data pegawai" },
-            { href: "pegawai.create", text: "Tambah pegawai" },
+            { href: "pasien", text: "Data Pasien" },
+            { href: "pasien.create", text: "Tambah Pasien" },
           ]}
         />
       ),
@@ -71,6 +73,20 @@ export default function Navbar(props) {
       href: "kunjungan",
       src: "kunjungan.svg",
       text: "Kunjungan",
+      render: (
+        <NavLinkSub
+          title="Kunjungan"
+          menus={[
+            { href: "kunjungan", text: "Data Kunjungan" },
+            { href: "kunjungan.create", text: "Tambah Kunjungan" },
+          ]}
+        />
+      ),
+    },
+    {
+      href: "obat",
+      src: "obat.svg",
+      text: "Obat",
       render: (
         <NavLinkSub
           title="pegawai"
@@ -113,6 +129,7 @@ export default function Navbar(props) {
   const userAccess = {
     admin: [0, 1, 2, 3, 4, 5, 6, 7],
     antrian: [2, 7],
+    pendaftaran: [2, 3, 4],
   };
 
   const submenus = () => {
@@ -125,7 +142,7 @@ export default function Navbar(props) {
       <section className="flex flex-col gap-2 justify-start items-start z-10 pt-4">
         {navs.map(
           (n, i) =>
-            userAccess[props.auth.user.peran].includes(i) && (
+            userAccess[props.auth.peran].includes(i) && (
               <NavLink
                 href={n.href}
                 src={n.src}

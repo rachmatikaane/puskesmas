@@ -34,9 +34,9 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request)
     {
         return array_merge(parent::share($request), [
-            'auth' => [
-                'user' => $request->user() ? \App\Models\Pengguna::find($request->user()->id)->only('id', 'username', 'peran') : null,
-            ],
+            'auth' => $request->user() 
+                ? \App\Models\Pengguna::find($request->user()->id)->only('id', 'username', 'peran') 
+                : null,
             'message' => function () use ($request) {
                 return $request->session()->get('message');
             },

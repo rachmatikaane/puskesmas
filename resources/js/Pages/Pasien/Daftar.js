@@ -4,10 +4,9 @@ import { Inertia } from "@inertiajs/inertia";
 
 import Authenticated from "@/Layouts/Authenticated";
 import Table from "@/Components/Table";
+import { formatDate } from "@/Utilities/misc";
 
-import { getPeran } from "@/Utilities/misc";
-
-export default function DaftarPegawai(props) {
+export default function DaftarPasien(props) {
   const columns = React.useMemo(
     () => [
       {
@@ -15,33 +14,27 @@ export default function DaftarPegawai(props) {
         accessor: "id", // accessor is the "key" in the data
       },
       {
+        Header: "NIK",
+        accessor: "nik",
+      },
+      {
         Header: "Nama",
         accessor: "nama",
       },
       {
-        Header: "Bagian",
-        accessor: (originalRow) => {
-          return `${getPeran(originalRow.pengguna.peran)}${
-            originalRow.pelayanan ? ` (${originalRow.pelayanan.nama})` : ""
-          }`;
+        Header: "Tempat/Tanggal Lahir",
+        accessor: (row) => {
+          return `${row.tempat_lahir}, ${formatDate(row.tanggal_lahir)}`;
         },
-        id: "pengguna.peran",
-      },
-      {
-        Header: "Jabatan",
-        accessor: "jabatan",
-      },
-      {
-        Header: "Username",
-        accessor: "pengguna.username",
       },
     ],
     []
   );
+
   const tableInstance = useTable(
     {
       columns,
-      data: props.list_pegawai,
+      data: props.list_pasien,
       defaultColumn: columns,
       initialState: { pageSize: 7 },
     },
@@ -50,8 +43,8 @@ export default function DaftarPegawai(props) {
   );
 
   const onHandleDelete = (id) => {
-    if (window.confirm(`Hapus pegawai dengan id ${id}?`)) {
-      Inertia.delete(`/pegawai/${id}`);
+    if (window.confirm(`Hapus pasien dengan id ${id}?`)) {
+      Inertia.delete(`/pasien/${id}`);
     }
   };
 
@@ -64,7 +57,7 @@ export default function DaftarPegawai(props) {
       <div className="py-8">
         <Table
           tableInstance={tableInstance}
-          editURL={`/pegawai`}
+          editURL={`/pasien`}
           handleDelete={onHandleDelete}
         />
       </div>

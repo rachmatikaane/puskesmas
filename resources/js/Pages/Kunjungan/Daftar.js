@@ -4,10 +4,9 @@ import { Inertia } from "@inertiajs/inertia";
 
 import Authenticated from "@/Layouts/Authenticated";
 import Table from "@/Components/Table";
+import { formatDate, getStatusKunjungan } from "@/Utilities/misc";
 
-import { getPeran } from "@/Utilities/misc";
-
-export default function DaftarPegawai(props) {
+export default function DaftarKunjungan(props) {
   const columns = React.useMemo(
     () => [
       {
@@ -15,33 +14,33 @@ export default function DaftarPegawai(props) {
         accessor: "id", // accessor is the "key" in the data
       },
       {
-        Header: "Nama",
-        accessor: "nama",
-      },
-      {
-        Header: "Bagian",
-        accessor: (originalRow) => {
-          return `${getPeran(originalRow.pengguna.peran)}${
-            originalRow.pelayanan ? ` (${originalRow.pelayanan.nama})` : ""
-          }`;
+        Header: "Tanggal",
+        accessor: (row) => {
+          return `${formatDate(row.tanggal)}`;
         },
-        id: "pengguna.peran",
       },
       {
-        Header: "Jabatan",
-        accessor: "jabatan",
+        Header: "Nama",
+        accessor: "pasien.nama",
       },
       {
-        Header: "Username",
-        accessor: "pengguna.username",
+        Header: "Status",
+        accessor: (row) => {
+          return getStatusKunjungan(row.status);
+        },
+      },
+      {
+        Header: "Layanan",
+        accessor: "pegawai.pelayanan.nama",
       },
     ],
     []
   );
+
   const tableInstance = useTable(
     {
       columns,
-      data: props.list_pegawai,
+      data: props.list_kunjungan,
       defaultColumn: columns,
       initialState: { pageSize: 7 },
     },
@@ -50,8 +49,8 @@ export default function DaftarPegawai(props) {
   );
 
   const onHandleDelete = (id) => {
-    if (window.confirm(`Hapus pegawai dengan id ${id}?`)) {
-      Inertia.delete(`/pegawai/${id}`);
+    if (window.confirm(`Hapus kunjungan dengan id ${id}?`)) {
+      Inertia.delete(`/kunjungan/${id}`);
     }
   };
 
@@ -64,7 +63,7 @@ export default function DaftarPegawai(props) {
       <div className="py-8">
         <Table
           tableInstance={tableInstance}
-          editURL={`/pegawai`}
+          editURL={`/kunjungan`}
           handleDelete={onHandleDelete}
         />
       </div>

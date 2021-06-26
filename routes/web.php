@@ -7,6 +7,8 @@ use Inertia\Inertia;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PelayananController;
 use App\Http\Controllers\AntrianController;
+use App\Http\Controllers\PasienController;
+use App\Http\Controllers\KunjunganController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +28,10 @@ Route::get('/', function () {
 
     if (Auth::user()->peran == 'antrian') {
         return redirect()->route('antrian');
+    }
+
+    if (Auth::user()->peran == 'pendaftaran') {
+        return redirect()->route('antrian.list');
     }
 
     return redirect()->route('pegawai');
@@ -59,23 +65,47 @@ Route::group([
 
 Route::group([
     "prefix" => 'antrian',
-    "middleware" => ['auth', 'verified', 'role:admin|antrian']
+    "middleware" => ['auth', 'verified', 'role:admin|antrian|pendaftaran']
 ], function() {
     Route::get('/', [AntrianController::class, 'index'])->name('antrian');
     Route::post('/ambil', [AntrianController::class, 'ambil'])->name('antrian.ambil');
+
+    Route::get('/list', [AntrianController::class, 'list'])->name('antrian.list');
+    Route::post('/skip', [AntrianController::class, 'skip'])->name('antrian.skip');
 });
 
-Route::get('/pasien', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('pasien');
+Route::group([
+    "prefix" => 'pasien',
+    "middleware" => ['auth', 'verified', 'role:admin|pendaftaran']
+], function() {
+    Route::get('/', [PasienController::class, 'index'])->name('pasien');
+    Route::get('/tambah', [PasienController::class, 'create'])->name('pasien.create');
+    Route::get('/tambah/{id_nomor_antrian}', [PasienController::class, 'createWithAntrian'])->name('pasien.createWithAntrian');
+    Route::post('/tambah', [PasienController::class, 'store'])->name('pasien.store');
+    Route::get('/{id_pasien}', [PasienController::class, 'edit'])->name('pasien.edit');
+    Route::post('/{id_pasien}', [PasienController::class, 'update'])->name('pasien.update');
+    Route::delete('/{id_pasien}', [PasienController::class, 'delete'])->name('pasien.delete');
+    Route::get('/{id_pasien}/detail', [PasienController::class, 'show'])->name('pasien.show');
+});
+
+Route::group([
+    "prefix" => 'kunjungan',
+    "middleware" => ['auth', 'verified', 'role:admin|pendaftaran']
+], function() {
+    Route::get('/', [KunjunganController::class, 'index'])->name('kunjungan');
+    Route::get('/tambah', [KunjunganController::class, 'create'])->name('kunjungan.create');
+    Route::get('/tambah/{id_nomor_antrian}', [KunjunganController::class, 'createWithAntrian'])->name('kunjungan.createWithAntrian');
+    Route::get('/tambah/{id_nomor_antrian}/{id_pasien}', [KunjunganController::class, 'createFull'])->name('kunjungan.createFull');
+    Route::post('/tambah', [KunjunganController::class, 'store'])->name('kunjungan.store');
+    Route::get('/{id_kunjungan}', [KunjunganController::class, 'edit'])->name('kunjungan.edit');
+    Route::post('/{id_kunjungan}', [KunjunganController::class, 'update'])->name('kunjungan.update');
+    Route::delete('/{id_kunjungan}', [KunjunganController::class, 'delete'])->name('kunjungan.delete');
+    Route::get('/{id_kunjungan}/detail', [KunjunganController::class, 'show'])->name('kunjungan.show');
+});
 
 Route::get('/obat', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('obat');
-
-Route::get('/kunjungan', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('kunjungan');
 
 Route::get('/rekam-medis', function () {
     return Inertia::render('Dashboard');

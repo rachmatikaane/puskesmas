@@ -23,7 +23,7 @@ class CreateKunjunganTable extends Migration
             $table->time('waktu');
             $table->boolean('status')->default(0);
             $table->string('jenis_pembayaran', 10);
-            $table->integer('total_harga');
+            $table->integer('total_harga')->nullable();
             $table->boolean('lunas')->default(0);
             $table->foreign('id_nomor_antrian')->references('id')->on('nomor_antrian')->onDelete('cascade');
             $table->foreign('id_pasien')->references('id')->on('pasien')->onDelete('cascade');
