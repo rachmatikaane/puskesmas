@@ -133,6 +133,7 @@ export default function Table({
   withAction = true,
   withPagination = true,
   withDateSearch = false,
+  withDetailButton = true,
   handleDelete,
 }) {
   const {
@@ -219,13 +220,15 @@ export default function Table({
                       >
                         <img src="/assets/delete.svg"></img>
                       </button>
-                      <InertiaLink
-                        href={`${editURL}/${row.original.id}/detail`}
-                        as="button"
-                        className="p-1 rounded-full hover:bg-gray-400 "
-                      >
-                        <img src="/assets/detail.svg"></img>
-                      </InertiaLink>
+                      {withDetailButton && (
+                        <InertiaLink
+                          href={`${editURL}/${row.original.id}/detail`}
+                          as="button"
+                          className="p-1 rounded-full hover:bg-gray-400 "
+                        >
+                          <img src="/assets/detail.svg"></img>
+                        </InertiaLink>
+                      )}
                     </div>
                   </td>
                 )}

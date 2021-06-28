@@ -89,6 +89,7 @@ export default function DaftarKunjungan(props) {
           editURL={`/kunjungan`}
           handleDelete={onHandleDelete}
           withDateSearch={true}
+          withDetailButton={false}
         />
       </div>
     </Authenticated>
