@@ -61,7 +61,7 @@ export default function AntrianPendaftar(props) {
                   ? antrian[0].no
                   : props.antrian.length > 0
                   ? props.antrian[props.antrian.length - 1].no
-                  : "Belum ada antrian"}
+                  : 0}
                 /{props.antrian.length}
               </h1>
               <p className="font-light text-lg">Nomor antrian saat ini</p>

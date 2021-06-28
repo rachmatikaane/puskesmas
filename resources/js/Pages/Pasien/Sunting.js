@@ -6,6 +6,7 @@ import Authenticated from "@/Layouts/Authenticated";
 import Button from "@/Components/Button";
 import Input from "@/Components/Input";
 import Label from "@/Components/Label";
+import Radio from "@/Components/Radio";
 import Select from "@/Components/Select";
 
 export default function SuntingPasien(props) {
@@ -149,18 +150,24 @@ export default function SuntingPasien(props) {
           >
             <Label forInput="jenis_kelamin" value="Jenis Kelamin*" />
 
-            <Select
-              name="jenis_kelamin"
-              value={data.jenis_kelamin}
-              className="block w-full"
-              autoComplete="jenis_kelamin"
-              handleChange={onHandleChange}
-              required
-              options={[
-                { text: "Laki - laki", value: "L" },
-                { text: "Perempuan", value: "P" },
-              ]}
-            />
+            <div className="flex gap-4 items-center">
+              <Radio
+                id="laki_laki"
+                name="jenis_kelamin"
+                value="L"
+                checked={data.jenis_kelamin === "L"}
+                label="Laki - laki"
+                onChange={onHandleChange}
+              />
+              <Radio
+                id="perempuan"
+                name="jenis_kelamin"
+                value="P"
+                checked={data.jenis_kelamin === "P"}
+                label="Perempuan"
+                onChange={onHandleChange}
+              />
+            </div>
           </div>
 
           <div
