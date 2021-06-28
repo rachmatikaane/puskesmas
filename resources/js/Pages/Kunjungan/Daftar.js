@@ -1,5 +1,10 @@
 import React from "react";
-import { useTable, useGlobalFilter, usePagination } from "react-table";
+import {
+  useTable,
+  useGlobalFilter,
+  usePagination,
+  useFilters,
+} from "react-table";
 import { Inertia } from "@inertiajs/inertia";
 
 import Authenticated from "@/Layouts/Authenticated";
@@ -10,13 +15,22 @@ export default function DaftarKunjungan(props) {
   const columns = React.useMemo(
     () => [
       {
-        Header: "ID",
-        accessor: "id", // accessor is the "key" in the data
+        Header: "No",
+        accessor: (row, index) => index + 1, // accessor is the "key" in the data
       },
       {
+        id: "tanggal",
         Header: "Tanggal",
         accessor: (row) => {
           return `${formatDate(row.tanggal)}`;
+        },
+        filter: (rows, id, filterValue) => {
+          return rows.filter(
+            (row) =>
+              filterValue.length <= 0 ||
+              !filterValue ||
+              formatDate(filterValue).includes(row.values[id])
+          );
         },
       },
       {
@@ -42,9 +56,18 @@ export default function DaftarKunjungan(props) {
       columns,
       data: props.list_kunjungan,
       defaultColumn: columns,
-      initialState: { pageSize: 7 },
+      initialState: {
+        pageSize: 7,
+        filters: [
+          {
+            id: "tanggal",
+            value: formatDate(new Date()),
+          },
+        ],
+      },
     },
     useGlobalFilter,
+    useFilters,
     usePagination
   );
 
@@ -65,6 +88,7 @@ export default function DaftarKunjungan(props) {
           tableInstance={tableInstance}
           editURL={`/kunjungan`}
           handleDelete={onHandleDelete}
+          withDateSearch={true}
         />
       </div>
     </Authenticated>

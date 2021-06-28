@@ -16,7 +16,7 @@ use Inertia\Inertia;
 class KunjunganController extends Controller
 {
     public function index() {
-        $list_kunjungan = Kunjungan::with('nomor_antrian')->with('pasien')->with('pegawai.pelayanan')->with('rekam_medis')->get();
+        $list_kunjungan = Kunjungan::with('nomor_antrian')->with('pasien')->with('pegawai.pelayanan')->with('rekam_medis')->orderByDesc('tanggal')->get();
 
         return Inertia::render("Kunjungan/Daftar", [
             "list_kunjungan" => $list_kunjungan

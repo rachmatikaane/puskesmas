@@ -24,9 +24,9 @@ export const getJK = (char) => {
     case "P":
       return "Perempuan";
     default:
-      return "-"
+      return "-";
   }
-}
+};
 
 export const getStatusKunjungan = (i) => {
   switch (i) {
@@ -35,9 +35,9 @@ export const getStatusKunjungan = (i) => {
     case 1:
       return "Selesai Diperiksa";
     default:
-      return "-"
+      return "-";
   }
-}
+};
 
 export const getMonthName = (monthInt) => {
   switch (monthInt + 1) {
@@ -70,6 +70,37 @@ export const getMonthName = (monthInt) => {
   }
 };
 
+export const getMonthInt = (monthName) => {
+  switch (monthName) {
+    case "Januari":
+      return 1;
+    case "Februari":
+      return 2;
+    case "Maret":
+      return 3;
+    case "April":
+      return 4;
+    case "Mei":
+      return 5;
+    case "Juni":
+      return 6;
+    case "Juli":
+      return 7;
+    case "Agustus":
+      return 8;
+    case "September":
+      return 9;
+    case "Oktober":
+      return 10;
+    case "November":
+      return 11;
+    case "Desember":
+      return 12;
+    default:
+      return null;
+  }
+};
+
 export const formatDate = (date) => {
   const newDate = new Date(date);
   const day = newDate.getDate();
@@ -77,4 +108,16 @@ export const formatDate = (date) => {
   const year = newDate.getFullYear();
 
   return `${day} ${month} ${year}`;
+};
+
+export const deformatDate = (str) => {
+  const explodedStr = str.split(" ");
+  if (explodedStr.length !== 3) return str;
+
+  const date = new Date(
+    `${explodedStr[2]}-${getMonthInt(explodedStr[1])}-${explodedStr[0]}`
+  );
+  return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+    .toISOString()
+    .split("T")[0];
 };

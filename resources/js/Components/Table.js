@@ -5,13 +5,9 @@ import Input from "@/Components/Input";
 import React from "react";
 import { useAsyncDebounce } from "react-table";
 import { InertiaLink } from "@inertiajs/inertia-react";
+import { deformatDate } from "@/Utilities/misc";
 
-function GlobalFilter({
-  preGlobalFilteredRows,
-  globalFilter,
-  setGlobalFilter,
-}) {
-  const count = preGlobalFilteredRows.length;
+function GlobalFilter({ globalFilter, setGlobalFilter }) {
   const [value, setValue] = React.useState(globalFilter || "");
   const onChange = useAsyncDebounce((value) => {
     setGlobalFilter(value || "");
@@ -111,16 +107,37 @@ function Pagination({ tableInstance }) {
   );
 }
 
+function DateFilter({ filter, setFilter }) {
+  const [value, setValue] = React.useState(filter.value || "");
+  const onChange = useAsyncDebounce((value) => {
+    setFilter(filter.id, value || "");
+  }, 200);
+
+  return (
+    <Input
+      value={deformatDate(value)}
+      handleChange={(e) => {
+        setValue(e.target.value);
+        onChange(e.target.value);
+      }}
+      type="date"
+      className="mb-4 w-full"
+    />
+  );
+}
+
 export default function Table({
   tableInstance,
   editURL = "#",
   withSearch = true,
   withAction = true,
   withPagination = true,
+  withDateSearch = false,
   handleDelete,
 }) {
   const {
     getTableProps,
+    columns,
     getTableBodyProps,
     headerGroups,
     rows,
@@ -129,13 +146,20 @@ export default function Table({
     setGlobalFilter,
     state,
     page,
+    setFilter,
   } = tableInstance;
 
   return (
     <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+      {withDateSearch && (
+        <DateFilter
+          filter={state.filters.find((f) => f.id === "tanggal")}
+          setFilter={setFilter}
+        />
+      )}
+
       {withSearch && (
         <GlobalFilter
-          preGlobalFilteredRows={preGlobalFilteredRows}
           globalFilter={state.globalFilter}
           setGlobalFilter={setGlobalFilter}
         />
