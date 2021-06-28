@@ -1,11 +1,12 @@
 import React from "react";
 import { InertiaLink } from "@inertiajs/inertia-react";
 import { useForm } from "@inertiajs/inertia-react";
+import Select from "react-select";
 
 import Authenticated from "@/Layouts/Authenticated";
 import Button from "@/Components/Button";
 import Label from "@/Components/Label";
-import Select from "@/Components/Select";
+import MySelect from "@/Components/Select";
 import { formatDate } from "@/Utilities/misc";
 
 export default function TambahKunjungan(props) {
@@ -25,7 +26,9 @@ export default function TambahKunjungan(props) {
   }, []);
 
   const onHandleChange = (event) => {
-    setData(event.target.name, event.target.value);
+    event.target
+      ? setData(event.target.name, event.target.value)
+      : setData(event.name, event.value);
   };
 
   const submit = (e) => {
@@ -70,18 +73,24 @@ export default function TambahKunjungan(props) {
 
             <Select
               name="id_nomor_antrian"
-              value={data.id_nomor_antrian}
+              defaultValue={props.list_antrian.map((a) =>
+                a.id === data.id_nomor_antrian
+                  ? {
+                      label: `${a.no} • ${formatDate(a.tanggal)}`,
+                      name: "id_nomor_antrian",
+                      value: a.id,
+                    }
+                  : false
+              )}
+              placeholder="Pilih..."
+              noOptionsMessage={() => "Tidak ditemukan"}
               className="block w-full"
-              autoComplete="id_nomor_antrian"
-              handleChange={onHandleChange}
+              onChange={onHandleChange}
               required={true}
               options={[
-                {
-                  text: "-- Pilih --",
-                  value: "",
-                },
                 ...props.list_antrian.map((a) => ({
-                  text: `${a.no} | ${formatDate(a.tanggal)}`,
+                  label: `${a.no} • ${formatDate(a.tanggal)}`,
+                  name: "id_nomor_antrian",
                   value: a.id,
                 })),
               ]}
@@ -96,18 +105,24 @@ export default function TambahKunjungan(props) {
 
             <Select
               name="id_pasien"
-              value={data.id_pasien}
+              defaultValue={props.list_pasien.map((p) =>
+                p.id === data.id_pasien
+                  ? {
+                      label: `${p.nik} • ${p.nama}`,
+                      name: "id_pasien",
+                      value: p.id,
+                    }
+                  : false
+              )}
+              placeholder="Pilih..."
+              noOptionsMessage={() => "Tidak ditemukan"}
               className="block w-full"
-              autoComplete="id_pasien"
-              handleChange={onHandleChange}
+              onChange={onHandleChange}
               required={true}
               options={[
-                {
-                  text: "-- Pilih --",
-                  value: "",
-                },
                 ...props.list_pasien.map((p) => ({
-                  text: `${p.nik} | ${p.nama}`,
+                  label: `${p.nik} • ${p.nama}`,
+                  name: "id_pasien",
                   value: p.id,
                 })),
               ]}
@@ -122,18 +137,24 @@ export default function TambahKunjungan(props) {
 
             <Select
               name="id_pelayanan"
-              value={data.id_pelayanan}
+              defaultValue={props.list_pelayanan.map((p) =>
+                p.id === data.id_pelayanan
+                  ? {
+                      label: p.nama,
+                      name: "id_pelayanan",
+                      value: p.id,
+                    }
+                  : false
+              )}
+              placeholder="Pilih..."
+              noOptionsMessage={() => "Tidak ditemukan"}
               className="block w-full"
-              autoComplete="id_pelayanan"
-              handleChange={onHandleChange}
+              onChange={onHandleChange}
               required={true}
               options={[
-                {
-                  text: "-- Pilih --",
-                  value: "",
-                },
                 ...props.list_pelayanan.map((p) => ({
-                  text: p.nama,
+                  label: p.nama,
+                  name: "id_pelayanan",
                   value: p.id,
                 })),
               ]}
@@ -148,15 +169,29 @@ export default function TambahKunjungan(props) {
 
             <Select
               name="id_pegawai"
-              value={data.id_pegawai}
+              defaultValue={
+                selectedPelayanan && selectedPelayanan.pegawai.length > 0
+                  ? selectedPelayanan.pegawai.map((p) =>
+                      p.id === data.id_pegawai
+                        ? {
+                            label: p.nama,
+                            name: "id_pegawai",
+                            value: p.id,
+                          }
+                        : false
+                    )
+                  : []
+              }
+              placeholder="Pilih..."
+              noOptionsMessage={() => "Tidak ditemukan"}
               className="block w-full"
-              autoComplete="id_pegawai"
-              handleChange={onHandleChange}
+              onChange={onHandleChange}
               required={true}
               options={
                 selectedPelayanan
                   ? selectedPelayanan.pegawai.map((p) => ({
-                      text: p.nama,
+                      label: p.nama,
+                      name: "id_pegawai",
                       value: p.id,
                     }))
                   : []
@@ -170,11 +205,10 @@ export default function TambahKunjungan(props) {
           >
             <Label forInput="jenis_pembayaran" value="Jenis Pembayaran" />
 
-            <Select
+            <MySelect
               name="jenis_pembayaran"
               value={data.jenis_pembayaran}
               className="block w-full"
-              autoComplete="jenis_pembayaran"
               handleChange={onHandleChange}
               required={true}
               options={[
