@@ -40,7 +40,7 @@ export default function DaftarKunjungan(props) {
       {
         Header: "Status",
         accessor: (row) => {
-          return getStatusKunjungan(row.status);
+          return getStatusKunjungan(row.nomor_antrian.status);
         },
       },
       {
