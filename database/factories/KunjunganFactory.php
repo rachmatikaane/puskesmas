@@ -44,6 +44,7 @@ class KunjunganFactory extends Factory
             'tanggal' => $this->faker->date(),
             'waktu' => $this->faker->time(),
             'status' => $this->faker->boolean(),
+            'no_resep' => $this->faker->unique()->bothify('#?#?#?##??#?#?'),
             'jenis_pembayaran' => $this->faker->randomElement(['BPJS', 'Umum']),
             'total_harga' => $this->faker->randomNumber(5),
             'lunas' => $this->faker->boolean(),

@@ -29,6 +29,7 @@ class ResepObatFactory extends Factory
             'id_kunjungan' => $this->faker->randomElement($kunjungan_ids),
             'jumlah' => $this->faker->numberBetween(1, 10),
             'tanggal' => $this->faker->date(),
+            'aturan_pakai' => $this->faker->randomElement(["3 x 1 sdm/hari", "2 x 1/hari"]),
             'status' => $this->faker->boolean(),
         ];
     }

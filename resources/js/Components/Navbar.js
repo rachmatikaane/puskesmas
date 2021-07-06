@@ -51,6 +51,11 @@ export default function Navbar(props) {
               text: "Daftar Antrian",
               condition: ["admin", "pendaftaran"].includes(props.auth.peran),
             },
+            {
+              href: "antrian.medis",
+              text: "Antrian Medis",
+              condition: ["admin", "medis"].includes(props.auth.peran),
+            },
           ]}
         />
       ),
@@ -63,8 +68,16 @@ export default function Navbar(props) {
         <NavLinkSub
           title="Pasien"
           menus={[
-            { href: "pasien", text: "Data Pasien" },
-            { href: "pasien.create", text: "Tambah Pasien" },
+            {
+              href: "pasien",
+              text: "Data Pasien",
+              condition: ["admin", "pendaftaran"].includes(props.auth.peran),
+            },
+            {
+              href: "pasien.create",
+              text: "Tambah Pasien",
+              condition: ["admin", "pendaftaran"].includes(props.auth.peran),
+            },
           ]}
         />
       ),
@@ -84,23 +97,20 @@ export default function Navbar(props) {
       ),
     },
     {
-      href: "obat",
-      src: "obat.svg",
-      text: "Obat",
+      href: "pemeriksaan",
+      src: "rekam_medis.svg",
+      text: "Rekam Medis",
       render: (
         <NavLinkSub
-          title="pegawai"
-          menus={[
-            { href: "pegawai", text: "Data pegawai" },
-            { href: "pegawai.create", text: "Tambah pegawai" },
-          ]}
+          title="Rekam Medis"
+          menus={[{ href: "pemeriksaan", text: "Data Pemeriksaan" }]}
         />
       ),
     },
     {
-      href: "rekam_medis",
-      src: "rekam_medis.svg",
-      text: "Rekam Medis",
+      href: "obat",
+      src: "obat.svg",
+      text: "Obat",
       render: (
         <NavLinkSub
           title="pegawai"
@@ -130,6 +140,7 @@ export default function Navbar(props) {
     admin: [0, 1, 2, 3, 4, 5, 6, 7],
     antrian: [2, 7],
     pendaftaran: [2, 3, 4],
+    medis: [2, 5],
   };
 
   const submenus = () => {

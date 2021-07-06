@@ -24,6 +24,7 @@ class Kunjungan extends Model
         'tanggal',
         'waktu',
         'status',
+        'no_resep_obat',
         'jenis_pembayaran',
         'total_harga',
         'lunas',
@@ -45,5 +46,9 @@ class Kunjungan extends Model
 
     public function rekam_medis() {
         return $this->belongsTo(RekamMedis::class, 'id_rekam_medis');
+    }
+
+    public function resep_obat() {
+        return $this->hasMany(ResepObat::class, 'id_kunjungan');
     }
 }

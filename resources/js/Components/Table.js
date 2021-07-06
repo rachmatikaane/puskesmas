@@ -134,6 +134,9 @@ export default function Table({
   withPagination = true,
   withDateSearch = false,
   withDetailButton = true,
+  withDelete = true,
+  customEditIcon,
+  extraEditUrl,
   handleDelete,
 }) {
   const {
@@ -206,27 +209,34 @@ export default function Table({
                 })}
                 {withAction && (
                   <td className="border-b border-primary p-2 text-xs">
-                    <div className="flex gap-4">
+                    <div className="flex gap-2">
                       <InertiaLink
-                        href={`${editURL}/${row.original.id}`}
+                        href={`${editURL}/${row.original.id}${
+                          extraEditUrl ?? ""
+                        }`}
                         as="button"
-                        className="p-1 rounded-full hover:bg-gray-400 "
+                        className="p-1 rounded-full hover:bg-gray-400"
                       >
-                        <img src="/assets/edit.svg"></img>
+                        <img
+                          className="max-h-8"
+                          src={`/assets/${customEditIcon ?? "edit.svg"}`}
+                        />
                       </InertiaLink>
-                      <button
-                        className="p-1 rounded-full hover:bg-gray-400 "
-                        onClick={() => handleDelete(row.original.id)}
-                      >
-                        <img src="/assets/delete.svg"></img>
-                      </button>
+                      {withDelete && (
+                        <button
+                          className="p-1 rounded-full hover:bg-gray-400"
+                          onClick={() => handleDelete(row.original.id)}
+                        >
+                          <img className="max-h-8" src="/assets/delete.svg" />
+                        </button>
+                      )}
                       {withDetailButton && (
                         <InertiaLink
                           href={`${editURL}/${row.original.id}/detail`}
                           as="button"
-                          className="p-1 rounded-full hover:bg-gray-400 "
+                          className="p-1 rounded-full hover:bg-gray-400"
                         >
-                          <img src="/assets/detail.svg"></img>
+                          <img className="max-h-8" src="/assets/detail.svg" />
                         </InertiaLink>
                       )}
                     </div>

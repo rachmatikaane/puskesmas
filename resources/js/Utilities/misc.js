@@ -33,7 +33,15 @@ export const getStatusKunjungan = (i) => {
     case 0:
       return "Belum Selesai";
     case 1:
-      return "Selesai Diperiksa";
+      return "Nomor antrian dilewat";
+    case 2:
+      return "Selesai proses pendaftaran";
+    case 3:
+      return "Selesai proses pemeriksaan";
+    case 4:
+      return "Selesai proses pembayaran";
+    case 5:
+      return "Selesai proses pengambilan obat";
     default:
       return "-";
   }

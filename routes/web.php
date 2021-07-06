@@ -9,6 +9,7 @@ use App\Http\Controllers\PelayananController;
 use App\Http\Controllers\AntrianController;
 use App\Http\Controllers\PasienController;
 use App\Http\Controllers\KunjunganController;
+use App\Http\Controllers\PemeriksaanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,10 @@ Route::get('/', function () {
 
     if (Auth::user()->peran == 'pendaftaran') {
         return redirect()->route('antrian.list');
+    }
+    
+    if (Auth::user()->peran == 'medis') {
+        return redirect()->route('antrian.medis');
     }
 
     return redirect()->route('pegawai');
@@ -65,18 +70,20 @@ Route::group([
 
 Route::group([
     "prefix" => 'antrian',
-    "middleware" => ['auth', 'verified', 'role:admin|antrian|pendaftaran']
+    "middleware" => ['auth', 'verified', 'role:admin|antrian|pendaftaran|medis']
 ], function() {
     Route::get('/', [AntrianController::class, 'index'])->name('antrian');
     Route::post('/ambil', [AntrianController::class, 'ambil'])->name('antrian.ambil');
 
     Route::get('/list', [AntrianController::class, 'list'])->name('antrian.list');
     Route::post('/skip', [AntrianController::class, 'skip'])->name('antrian.skip');
+    
+    Route::get('/medis', [AntrianController::class, 'medis'])->name('antrian.medis');
 });
 
 Route::group([
     "prefix" => 'pasien',
-    "middleware" => ['auth', 'verified', 'role:admin|pendaftaran']
+    "middleware" => ['auth', 'verified', 'role:admin|pendaftaran|medis']
 ], function() {
     Route::get('/', [PasienController::class, 'index'])->name('pasien');
     Route::get('/tambah', [PasienController::class, 'create'])->name('pasien.create');
@@ -101,6 +108,16 @@ Route::group([
     Route::post('/{id_kunjungan}', [KunjunganController::class, 'update'])->name('kunjungan.update');
     Route::delete('/{id_kunjungan}', [KunjunganController::class, 'delete'])->name('kunjungan.delete');
     Route::get('/{id_kunjungan}/detail', [KunjunganController::class, 'show'])->name('kunjungan.show');
+});
+
+Route::group([
+    "prefix" => 'pemeriksaan',
+    "middleware" => ['auth', 'verified', 'role:admin|medis']
+], function() {
+    Route::get('/', [PemeriksaanController::class, 'index'])->name('pemeriksaan');
+    Route::get('/{id_kunjungan}', [PemeriksaanController::class, 'create'])->name('pemeriksaan.create');
+    Route::post('/{id_kunjungan}', [PemeriksaanController::class, 'store'])->name('pemeriksaan.store');
+    Route::get('/{id_kunjungan}/detail', [PemeriksaanController::class, 'show'])->name('pemeriksaan.show');
 });
 
 Route::get('/obat', function () {

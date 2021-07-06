@@ -31,12 +31,14 @@ export default function DetailPasien(props) {
             >
               <img src="/assets/back-rounded.svg" className="w-9 h-9" />
             </InertiaLink>
-            <InertiaLink href="/pasien/tambah">
-              <Button className="flex gap-2 w-max bg-primary hover:bg-opacity-75">
-                <img src="/assets/user-create.svg" className="w-9" />
-                Tambah Data
-              </Button>
-            </InertiaLink>
+            {["admin", "pendaftara"].includes(props.auth.peran) && (
+              <InertiaLink href="/pasien/tambah">
+                <Button className="flex gap-2 w-max bg-primary hover:bg-opacity-75">
+                  <img src="/assets/user-create.svg" className="w-9" />
+                  Tambah Data
+                </Button>
+              </InertiaLink>
+            )}
           </div>
 
           <fieldset className="border border-solid border-black px-8 py-4 flex flex-col m-auto gap-4">

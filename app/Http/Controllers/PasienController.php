@@ -7,11 +7,16 @@ use App\Http\Requests\StorePasienRequest;
 use App\Http\Requests\UpdatePasienRequest;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class PasienController extends Controller
 {
     public function index() {
+        if (Auth::user()->peran !== 'admin' && Auth::user()->peran !== 'pendaftaran') {
+            return redirect('/');
+        }
+
         $list_pasien = Pasien::all();
 
         return Inertia::render('Pasien/Daftar', [

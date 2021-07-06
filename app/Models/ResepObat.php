@@ -25,4 +25,8 @@ class ResepObat extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function obat() {
+        return $this->belongsTo(Obat::class, 'id_obat');
+    }
 }

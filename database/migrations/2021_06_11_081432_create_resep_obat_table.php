@@ -20,6 +20,7 @@ class CreateResepObatTable extends Migration
             $table->integer('jumlah');
             $table->date('tanggal');
             $table->boolean('status')->default(0);
+            $table->string('aturan_pakai', 100);
             $table->foreign('id_obat')->references('id')->on('obat')->onDelete('cascade');
             $table->foreign('id_kunjungan')->references('id')->on('kunjungan')->onDelete('cascade');
             $table->timestamp('created_at')->useCurrent();

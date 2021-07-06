@@ -11,6 +11,7 @@ export default function Input({
   isFocused,
   handleChange,
   maxLength,
+  disabled,
 }) {
   const input = useRef();
 
@@ -32,6 +33,7 @@ export default function Input({
         }
         ref={input}
         autoComplete={autoComplete}
+        disabled={disabled}
         placeholder={placeholder}
         required={required}
         maxLength={maxLength}

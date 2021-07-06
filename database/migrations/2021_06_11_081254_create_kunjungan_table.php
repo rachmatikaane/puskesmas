@@ -25,6 +25,7 @@ class CreateKunjunganTable extends Migration
             $table->string('jenis_pembayaran', 10);
             $table->integer('total_harga')->nullable();
             $table->boolean('lunas')->default(0);
+            $table->string('no_resep_obat', 100)->nullable();
             $table->foreign('id_nomor_antrian')->references('id')->on('nomor_antrian')->onDelete('cascade');
             $table->foreign('id_pasien')->references('id')->on('pasien')->onDelete('cascade');
             $table->foreign('id_pegawai')->references('id')->on('pegawai')->onDelete('cascade');
