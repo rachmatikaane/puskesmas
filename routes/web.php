@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\PengaturanController;
+use App\Http\Controllers\PublicController;
 use App\Http\Controllers\PelayananController;
 use App\Http\Controllers\AntrianController;
 use App\Http\Controllers\PasienController;
@@ -41,6 +43,8 @@ Route::get('/', function () {
 
     return redirect()->route('pegawai');
 })->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/informasi', [PublicController::class, 'informasi'])->name('informasi');
+Route::get('/kontak', [PublicController::class, 'kontak'])->name('kontak');
 
 Route::group([
     "prefix" => 'pegawai', 
@@ -120,16 +124,23 @@ Route::group([
     Route::get('/{id_kunjungan}/detail', [PemeriksaanController::class, 'show'])->name('pemeriksaan.show');
 });
 
+Route::group([
+    "prefix" => 'pengaturan',
+    "middleware" => ['auth', 'verified', 'role:admin']
+], function() {
+    Route::get('/jadwal', [PengaturanController::class, 'createJadwal'])->name('jadwal.create');
+    Route::post('/jadwal', [PengaturanController::class, 'updateJadwal'])->name('jadwal.update');
+
+    Route::get('/kontak', [PengaturanController::class, 'createKontak'])->name('kontak.create');
+    Route::post('/kontak', [PengaturanController::class, 'updateKontak'])->name('kontak.update');
+});
+
+Route::get('/profil', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('profil');
+
 Route::get('/obat', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('obat');
-
-Route::get('/rekam-medis', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('rekam_medis');
-
-Route::get('/pengaturan', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('pengaturan');
 
 require __DIR__.'/auth.php';

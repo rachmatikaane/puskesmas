@@ -122,29 +122,43 @@ export default function Navbar(props) {
       ),
     },
     {
-      href: "pengaturan",
+      href: "profil",
+      src: "profile-white.svg",
+      text: "Profil",
+      render: (
+        <NavLinkSub
+          title="Profil"
+          menus={[{ href: "profil", text: "Data Pengguna" }]}
+        />
+      ),
+    },
+    {
+      href: "jadwal.create",
+      check: "pengaturan",
       src: "cogwheel.svg",
       text: "Pengaturan",
       render: (
         <NavLinkSub
-          title="pegawai"
+          title="Pengaturan"
           menus={[
-            { href: "pegawai", text: "Data pegawai" },
-            { href: "pegawai.create", text: "Tambah pegawai" },
+            { href: "jadwal.create", text: "Data Jadwal" },
+            { href: "kontak.create", text: "Data Kontak" },
           ]}
         />
       ),
     },
   ];
   const userAccess = {
-    admin: [0, 1, 2, 3, 4, 5, 6, 7],
+    admin: [0, 1, 2, 3, 4, 5, 6, 7, 8],
     antrian: [2, 7],
-    pendaftaran: [2, 3, 4],
-    medis: [2, 5],
+    pendaftaran: [2, 3, 4, 7],
+    medis: [2, 5, 7],
   };
 
   const submenus = () => {
-    const selected = navs.find((n) => window.location.href.includes(n.href));
+    const selected = navs.find((n) =>
+      window.location.href.includes(n.check ?? n.href)
+    );
     return selected && selected.render ? selected.render : <> </>;
   };
 

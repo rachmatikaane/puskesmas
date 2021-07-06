@@ -12,6 +12,8 @@ export default function Input({
   handleChange,
   maxLength,
   disabled,
+  id,
+  step,
 }) {
   const input = useRef();
 
@@ -24,6 +26,8 @@ export default function Input({
   return (
     <div className="flex flex-col items-start">
       <input
+        id={id}
+        step={step}
         type={type}
         name={name}
         value={value}
