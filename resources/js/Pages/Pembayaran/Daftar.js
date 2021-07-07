@@ -10,7 +10,7 @@ import Authenticated from "@/Layouts/Authenticated";
 import Table from "@/Components/Table";
 import { formatDate } from "@/Utilities/misc";
 
-export default function AntrianMedis(props) {
+export default function DaftarPembayaran(props) {
   const columns = React.useMemo(
     () => [
       {
@@ -21,7 +21,7 @@ export default function AntrianMedis(props) {
         id: "tanggal",
         Header: "Tanggal",
         accessor: (row) => {
-          return `${formatDate(row.nomor_antrian.tanggal)}`;
+          return `${formatDate(row.tanggal)}`;
         },
         filter: (rows, id, filterValue) => {
           return rows.filter(
@@ -34,7 +34,7 @@ export default function AntrianMedis(props) {
         Cell: (tableInstance) => {
           return (
             <>
-              {formatDate(tableInstance.row.original.nomor_antrian.tanggal)} •{" "}
+              {formatDate(tableInstance.row.original.tanggal)} •{" "}
               {tableInstance.row.original.waktu}
             </>
           );
@@ -55,6 +55,10 @@ export default function AntrianMedis(props) {
             </a>
           );
         },
+      },
+      {
+        Header: "Poli",
+        accessor: "pegawai.pelayanan.nama",
       },
     ],
     []
@@ -89,8 +93,8 @@ export default function AntrianMedis(props) {
       <div className="py-8">
         <Table
           tableInstance={tableInstance}
-          customEditIcon="periksa.svg"
-          editURL={`/pemeriksaan`}
+          customEditIcon="detail.svg"
+          editURL={`/pembayaran`}
           handleDelete={() => {}}
           withDateSearch={true}
           withDetailButton={false}

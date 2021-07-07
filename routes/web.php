@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 use App\Http\Controllers\PegawaiController;
+use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\PelayananController;
@@ -39,6 +40,10 @@ Route::get('/', function () {
     
     if (Auth::user()->peran == 'medis') {
         return redirect()->route('antrian.medis');
+    }
+
+    if (Auth::user()->peran == 'pembayaran') {
+        return redirect()->Route('pembayaran');
     }
 
     return redirect()->route('pegawai');
@@ -133,6 +138,17 @@ Route::group([
 
     Route::get('/kontak', [PengaturanController::class, 'createKontak'])->name('kontak.create');
     Route::post('/kontak', [PengaturanController::class, 'updateKontak'])->name('kontak.update');
+});
+
+Route::group([
+    "prefix" => 'pembayaran',
+    "middleware" => ['auth', 'verified', 'role:admin|pembayaran']
+], function() {
+    Route::get('/', [PembayaranController::class, 'index'])->name('pembayaran');
+    Route::get('/lunas', [PembayaranController::class, 'lunas'])->name('pembayaran.lunas');
+    Route::get('/{id_kunjungan}', [PembayaranController::class, 'create'])->name('pembayaran.create');
+    Route::post('/{id_kunjungan}', [PembayaranController::class, 'store'])->name('pembayaran.store');
+    Route::get('/{id_kunjungan}/detail', [PembayaranController::class, 'show'])->name('pembayaran.show');
 });
 
 Route::get('/profil', function () {

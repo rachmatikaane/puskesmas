@@ -10,7 +10,7 @@ import Authenticated from "@/Layouts/Authenticated";
 import Table from "@/Components/Table";
 import { formatDate } from "@/Utilities/misc";
 
-export default function AntrianMedis(props) {
+export default function DaftarLunas(props) {
   const columns = React.useMemo(
     () => [
       {
@@ -21,7 +21,7 @@ export default function AntrianMedis(props) {
         id: "tanggal",
         Header: "Tanggal",
         accessor: (row) => {
-          return `${formatDate(row.nomor_antrian.tanggal)}`;
+          return `${formatDate(row.tanggal)}`;
         },
         filter: (rows, id, filterValue) => {
           return rows.filter(
@@ -34,7 +34,7 @@ export default function AntrianMedis(props) {
         Cell: (tableInstance) => {
           return (
             <>
-              {formatDate(tableInstance.row.original.nomor_antrian.tanggal)} •{" "}
+              {formatDate(tableInstance.row.original.tanggal)} •{" "}
               {tableInstance.row.original.waktu}
             </>
           );
@@ -56,6 +56,18 @@ export default function AntrianMedis(props) {
           );
         },
       },
+      {
+        Header: "Poli",
+        accessor: "pegawai.pelayanan.nama",
+      },
+      {
+        Header: "Jenis Pembayaran",
+        accessor: "jenis_pembayaran",
+      },
+      {
+        Header: "Total Harga",
+        accessor: (row) => `Rp. ${row.total_harga}`,
+      },
     ],
     []
   );
@@ -63,7 +75,7 @@ export default function AntrianMedis(props) {
   const tableInstance = useTable(
     {
       columns,
-      data: props.antrian,
+      data: props.list_pembayaran,
       defaultColumn: columns,
       initialState: {
         pageSize: 7,
@@ -89,12 +101,11 @@ export default function AntrianMedis(props) {
       <div className="py-8">
         <Table
           tableInstance={tableInstance}
-          customEditIcon="periksa.svg"
-          editURL={`/pemeriksaan`}
+          editURL="/pembayaran"
           handleDelete={() => {}}
           withDateSearch={true}
-          withDetailButton={false}
           withDelete={false}
+          withEditButton={false}
         />
       </div>
     </Authenticated>

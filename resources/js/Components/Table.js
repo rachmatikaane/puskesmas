@@ -134,6 +134,7 @@ export default function Table({
   withPagination = true,
   withDateSearch = false,
   withDetailButton = true,
+  withEditButton = true,
   withDelete = true,
   customEditIcon,
   extraEditUrl,
@@ -210,18 +211,20 @@ export default function Table({
                 {withAction && (
                   <td className="border-b border-primary p-2 text-xs">
                     <div className="flex gap-2">
-                      <InertiaLink
-                        href={`${editURL}/${row.original.id}${
-                          extraEditUrl ?? ""
-                        }`}
-                        as="button"
-                        className="p-1 rounded-full hover:bg-gray-400"
-                      >
-                        <img
-                          className="max-h-8"
-                          src={`/assets/${customEditIcon ?? "edit.svg"}`}
-                        />
-                      </InertiaLink>
+                      {withEditButton && (
+                        <InertiaLink
+                          href={`${editURL}/${row.original.id}${
+                            extraEditUrl ?? ""
+                          }`}
+                          as="button"
+                          className="p-1 rounded-full hover:bg-gray-400"
+                        >
+                          <img
+                            className="max-h-8"
+                            src={`/assets/${customEditIcon ?? "edit.svg"}`}
+                          />
+                        </InertiaLink>
+                      )}
                       {withDelete && (
                         <button
                           className="p-1 rounded-full hover:bg-gray-400"
