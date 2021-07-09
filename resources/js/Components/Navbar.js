@@ -48,7 +48,7 @@ export default function Navbar(props) {
             },
             {
               href: "antrian.list",
-              text: "Daftar Antrian",
+              text: "Antrian Pendaftaran",
               condition: ["admin", "pendaftaran"].includes(props.auth.peran),
             },
             {
