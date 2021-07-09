@@ -6,6 +6,7 @@ use Inertia\Inertia;
 
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\ObatController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\PelayananController;
@@ -43,7 +44,11 @@ Route::get('/', function () {
     }
 
     if (Auth::user()->peran == 'pembayaran') {
-        return redirect()->Route('pembayaran');
+        return redirect()->route('pembayaran');
+    }
+
+    if (Auth::user()->peran == 'apoteker') {
+        return redirect()->route('antrian.resep');
     }
 
     return redirect()->route('pegawai');
@@ -79,7 +84,7 @@ Route::group([
 
 Route::group([
     "prefix" => 'antrian',
-    "middleware" => ['auth', 'verified', 'role:admin|antrian|pendaftaran|medis']
+    "middleware" => ['auth', 'verified', 'role:admin|antrian|pendaftaran|medis|apoteker']
 ], function() {
     Route::get('/', [AntrianController::class, 'index'])->name('antrian');
     Route::post('/ambil', [AntrianController::class, 'ambil'])->name('antrian.ambil');
@@ -88,11 +93,15 @@ Route::group([
     Route::post('/skip', [AntrianController::class, 'skip'])->name('antrian.skip');
     
     Route::get('/medis', [AntrianController::class, 'medis'])->name('antrian.medis');
+
+    Route::geT('/resep', [AntrianController::class, 'resep'])->name('antrian.resep');
 });
+
+Route::post('/resep/{id_kunjungan}', [ObatController::class, 'ambil'])->name('obat.ambil');
 
 Route::group([
     "prefix" => 'pasien',
-    "middleware" => ['auth', 'verified', 'role:admin|pendaftaran|medis']
+    "middleware" => ['auth', 'verified', 'role:admin|pendaftaran|medis|apoteker']
 ], function() {
     Route::get('/', [PasienController::class, 'index'])->name('pasien');
     Route::get('/tambah', [PasienController::class, 'create'])->name('pasien.create');
@@ -151,12 +160,22 @@ Route::group([
     Route::get('/{id_kunjungan}/detail', [PembayaranController::class, 'show'])->name('pembayaran.show');
 });
 
+Route::group([
+    "prefix" => 'obat',
+    "middleware" => ['auth', 'verified', 'role:admin|apoteker']
+], function() {
+    Route::get('/', [ObatController::class, 'index'])->name('obat');
+    Route::get('/tambah', [ObatController::class, 'create'])->name('obat.create');
+    Route::post('/tambah', [ObatController::class, 'store'])->name('obat.store');
+    Route::get('/{id_obat}', [ObatController::class, 'edit'])->name('obat.edit');
+    Route::put('/{id_obat}', [ObatController::class, 'update'])->name('obat.update');
+    Route::delete('/{id_obat}', [ObatController::class, 'delete'])->name('obat.delete');
+    Route::get('/{id_obat}/stok', [ObatController::class, 'editStok'])->name('obat.editStok');
+    Route::put('/{id_obat}/stok', [ObatController::class, 'updateStok'])->name('obat.updateStok');
+});
+
 Route::get('/profil', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('profil');
-
-Route::get('/obat', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('obat');
 
 require __DIR__.'/auth.php';

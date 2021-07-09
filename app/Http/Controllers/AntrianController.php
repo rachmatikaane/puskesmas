@@ -7,6 +7,7 @@ use App\Models\Kunjungan;
 use App\Models\Pegawai;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -19,6 +20,10 @@ class AntrianController extends Controller
 
         if (Auth::user()->peran == 'medis') {
             return redirect()->route('antrian.medis');
+        }
+
+        if (Auth::user()->peran == 'apoteker') {
+            return redirect()->route('antrian.resep');
         }
         
         $antrian_hari_ini = Antrian::where('tanggal', date('Y-m-d'))->get();
@@ -79,6 +84,29 @@ class AntrianController extends Controller
         $antrian = $antrian->orderBy('waktu')->get();
 
         return Inertia::render('AntrianMedis', [
+            "antrian" => $antrian
+        ]);
+    }
+
+    public function resep() {
+        if (Auth::user()->peran !== 'admin' && Auth::user()->peran !== "apoteker") {
+            return redirect()->route('antrian');
+        }
+
+        // GET data antrian
+        $antrian = Kunjungan::with('nomor_antrian')
+            ->with('pegawai.pelayanan')
+            ->with('pasien')
+            ->with('resep_obat.obat')
+            ->where('lunas', 1)
+            ->whereHas('nomor_antrian', function (Builder $query) {
+                $query->where('status', 4);
+            })
+            ->orderBy('waktu')
+            ->get();
+
+        // Render AntrianResep
+        return Inertia::render('AntrianResep', [
             "antrian" => $antrian
         ]);
     }

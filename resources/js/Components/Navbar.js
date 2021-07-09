@@ -56,6 +56,11 @@ export default function Navbar(props) {
               text: "Antrian Medis",
               condition: ["admin", "medis"].includes(props.auth.peran),
             },
+            {
+              href: "antrian.resep",
+              text: "Antrian Resep",
+              condition: ["admin", "apoteker"].includes(props.auth.peran),
+            },
           ]}
         />
       ),
@@ -127,10 +132,10 @@ export default function Navbar(props) {
       text: "Obat",
       render: (
         <NavLinkSub
-          title="pegawai"
+          title="Obat"
           menus={[
-            { href: "pegawai", text: "Data pegawai" },
-            { href: "pegawai.create", text: "Tambah pegawai" },
+            { href: "obat", text: "Data Obat" },
+            { href: "obat.create", text: "Tambah Obat" },
           ]}
         />
       ),
@@ -168,6 +173,7 @@ export default function Navbar(props) {
     pendaftaran: [2, 3, 4, 8],
     medis: [2, 5, 8],
     pembayaran: [6, 8],
+    apoteker: [2, 7, 8],
   };
 
   const submenus = () => {
