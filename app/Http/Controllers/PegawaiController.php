@@ -11,6 +11,7 @@ use App\Http\Requests\UpdatePegawaiRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
 class PegawaiController extends Controller
@@ -37,7 +38,7 @@ class PegawaiController extends Controller
         DB::transaction(function () use ($request) {
             $pengguna = new Pengguna();
             $pengguna->username = $request->username;
-            $pengguna->password = $request->password;
+            $pengguna->password = Hash::make($request->password);
             $pengguna->peran = $request->peran;
             $pengguna->save();
 

@@ -174,8 +174,11 @@ Route::group([
     Route::put('/{id_obat}/stok', [ObatController::class, 'updateStok'])->name('obat.updateStok');
 });
 
-Route::get('/profil', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('profil');
+Route::get('/profil', [PengaturanController::class, 'editPengguna'])
+    ->middleware(['auth', 'verified', 'role:admin|antrian|pendaftaran|medis|pembayaran|apoteker'])
+    ->name('profil');
+Route::put('/profil', [PengaturanController::class, 'updatePengguna'])
+    ->middleware(['auth', 'verified', 'role:admin|antrian|pendaftaran|medis|pembayaran|apoteker'])
+    ->name('profil.update');
 
 require __DIR__.'/auth.php';

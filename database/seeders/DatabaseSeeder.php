@@ -21,6 +21,13 @@ class DatabaseSeeder extends Seeder
             'peran' => 'admin',
         ]);
 
+        DB::table('pegawai')->insert([
+            'id_pelayanan' => null,
+            'id_pengguna' => 1,
+            'nama' => "Administrator",
+            'jabatan' => "Administrator"
+        ]);
+
         DB::table('pelayanan')->insert([
             [ 'nama' => 'Poli Anak' ],
             [ 'nama' => 'Poli Umum' ],

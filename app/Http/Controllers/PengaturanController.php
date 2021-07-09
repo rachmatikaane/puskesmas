@@ -4,7 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Jadwal;
 use App\Models\Kontak;
+use App\Models\Pegawai;
+use App\Models\Pengguna;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -51,5 +56,32 @@ class PengaturanController extends Controller
 
         // Redirect ke /pengaturan/kontak
         return redirect()->route('kontak.create')->with('message', 'Data kontak berhasil diubah');
+    }
+
+    public function editPengguna() {
+        $pegawai = Pegawai::where('id_pengguna', Auth::user()->id)->first();
+
+        return Inertia::render('Pengaturan/Pengguna', [
+            'pegawai' => $pegawai
+        ]);
+    }
+
+    public function updatePengguna(Request $request) {
+        // UPDATE data pengguna
+        DB::transaction(function () use ($request) {
+            $pegawai = Pegawai::where('id_pengguna', Auth::user()->id)->first();
+            $pegawai->nama = $request->nama;
+            $pegawai->save();
+
+            $pengguna = Pengguna::find(Auth::user()->id);
+            $pengguna->username = $request->username;
+            if ($request->password) {
+                $pengguna->password = Hash::make($request->password);
+            }
+            $pengguna->save();
+        });
+
+        // Redirect ke /profil
+        return redirect()->route('profil')->with('message', 'Profil anda berhasil diperbaharui');
     }
 }
