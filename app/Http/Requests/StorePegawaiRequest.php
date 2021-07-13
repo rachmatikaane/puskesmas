@@ -24,7 +24,7 @@ class StorePegawaiRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'bail|required|max:100|unique:pegawai,username',
+            'username' => 'bail|required|max:100|unique:pengguna,username',
             'password' => 'bail|required|confirmed',
             'password_confirmation' => 'required',
             'peran' => 'bail|required',
