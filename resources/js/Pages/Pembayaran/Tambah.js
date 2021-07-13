@@ -1,10 +1,12 @@
 import React from "react";
 import { InertiaLink } from "@inertiajs/inertia-react";
 import { useForm } from "@inertiajs/inertia-react";
+import { usePDF } from "@react-pdf/renderer";
 
 import Authenticated from "@/Layouts/Authenticated";
 import Button from "@/Components/Button";
 import Input from "@/Components/Input";
+import PrintDocument from "@/Print/BuktiPembayaran";
 
 import { formatDate } from "@/Utilities/misc";
 
@@ -12,6 +14,17 @@ export default function TambahPembayaran(props) {
   const { data, setData, post, processing, errors, reset } = useForm({
     total_harga: 0,
   });
+
+  const [instance, updateInstance] = usePDF({
+    document: (
+      <PrintDocument
+        kunjungan={props.kunjungan}
+        petugas={props.petugas}
+        totalHarga={data.total_harga}
+      />
+    ),
+  });
+  React.useEffect(updateInstance, [data]);
 
   React.useEffect(() => {
     return () => {
@@ -179,8 +192,21 @@ export default function TambahPembayaran(props) {
             type="button"
             className="bg-blue-500 hover:bg-blue-700 flex gap-2 items-center"
           >
-            <img src="/assets/print.svg" className="h-5" />
-            Cetak Bukti Pembayaran
+            {instance.loading ? (
+              "Loading document..."
+            ) : (
+              <a
+                href={instance.url}
+                download={
+                  `Bukti Pembayaran_${props.kunjungan.pasien.nama}_${props.kunjungan.rekam_medis.tanggal}.pdf` ??
+                  "Bukti Pembayaran.pdf"
+                }
+                className="flex gap-2 items-center"
+              >
+                <img src="/assets/print.svg" className="h-5" />
+                Cetak Bukti Pembayaran
+              </a>
+            )}
           </Button>
           <InertiaLink href={route("pembayaran")}>
             <Button className="bg-gray-500 hover:bg-gray-700">Kembali</Button>

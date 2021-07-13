@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Antrian;
 use App\Models\Kunjungan;
+use App\Models\Pegawai;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -37,9 +39,11 @@ class PembayaranController extends Controller
             ->with('resep_obat.obat')
             ->where('id', $id_kunjungan)
             ->first();
+        $petugas = Pegawai::with('pengguna')->where('id_pengguna', Auth::user()->id)->first();
 
         return Inertia::render('Pembayaran/Tambah', [
-            "kunjungan" => $kunjungan
+            "kunjungan" => $kunjungan,
+            "petugas" => $petugas
         ]);
     }
 
@@ -69,9 +73,11 @@ class PembayaranController extends Controller
             ->with('resep_obat.obat')
             ->where('id', $id_kunjungan)
             ->first();
+        $petugas = Pegawai::with('pengguna')->where('id_pengguna', Auth::user()->id)->first();
         
         return Inertia::render('Pembayaran/Detail', [
-            "kunjungan" => $kunjungan
+            "kunjungan" => $kunjungan,
+            "petugas" => $petugas
         ]);
     }
 }
