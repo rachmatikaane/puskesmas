@@ -1,5 +1,6 @@
 import React from "react";
 import { Inertia } from "@inertiajs/inertia";
+import { InertiaLink } from "@inertiajs/inertia-react";
 
 import Authenticated from "@/Layouts/Authenticated";
 
@@ -16,7 +17,13 @@ export default function AntrianPendaftar(props) {
       Inertia.post(
         route("antrian.skip", {
           id_nomor_antrian: antrian[0].id,
-        })
+        }),
+        {},
+        {
+          onSuccess: (page) => {
+            setAntrian(antrian.filter((a) => a.id !== antrian[0].id));
+          },
+        }
       );
     }
   };
@@ -88,6 +95,58 @@ export default function AntrianPendaftar(props) {
               <h2 className="text-lg">Tambah kunjungan</h2>
             </button>
           </section>
+
+          {props.antrian.filter((a) => a.status === 1).length > 0 && (
+            <section className="grid grid-cols-3 gap-4">
+              <table className="border border-red-600 border-collapse w-full col-span-2">
+                <thead>
+                  <tr>
+                    <th className="border-b border-red-600 p-2 bg-red-600 text-white text-left text-sm">
+                      Nomor Antrian yang Terlewat
+                    </th>
+                    <th className="border-b border-red-600 p-2 bg-red-600 text-white text-left text-sm">
+                      Aksi
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {props.antrian
+                    .filter((a) => a.status === 1)
+                    .map((a) => (
+                      <tr key={a.id}>
+                        <td className="border-b border-red-600 p-2 text-xs text-black">
+                          {a.no}
+                        </td>
+                        <td className="border-b border-red-600 p-2 text-xs text-black">
+                          <InertiaLink
+                            href={`/pasien/tambah/${a.id}`}
+                            as="button"
+                            className="p-1 rounded-full hover:bg-gray-400"
+                            title="Pasien baru"
+                          >
+                            <img
+                              src="/assets/user-create--black.svg"
+                              className="max-h-8"
+                            />
+                          </InertiaLink>
+                          <InertiaLink
+                            href={`/kunjungan/tambah/${a.id}`}
+                            as="button"
+                            className="p-1 rounded-full hover:bg-gray-400"
+                            title="Tambah kunjungan"
+                          >
+                            <img
+                              src="/assets/kunjungan--black.svg"
+                              className="max-h-8"
+                            />
+                          </InertiaLink>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </section>
+          )}
         </div>
       </div>
     </Authenticated>

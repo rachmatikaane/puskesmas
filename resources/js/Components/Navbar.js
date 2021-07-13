@@ -178,7 +178,7 @@ export default function Navbar(props) {
 
   const submenus = () => {
     const selected = navs.find((n) =>
-      window.location.href.includes(n.check ?? n.href)
+      window.location.href.includes(n.check || n.href)
     );
     return selected && selected.render ? selected.render : <> </>;
   };
@@ -191,6 +191,7 @@ export default function Navbar(props) {
             userAccess[props.auth.peran].includes(i) && (
               <NavLink
                 href={n.href}
+                check={n.check}
                 src={n.src}
                 text={n.text}
                 key={n.text}

@@ -11,7 +11,7 @@ export default function Radio({ id, name, value, checked, label, onChange }) {
         checked={checked}
         onChange={onChange}
       />
-      <label for={id}>{label}</label>
+      <label htmlFor={id}>{label}</label>
     </div>
   );
 }
