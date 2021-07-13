@@ -97,6 +97,7 @@ export default function Navbar(props) {
           menus={[
             { href: "kunjungan", text: "Data Kunjungan" },
             { href: "kunjungan.create", text: "Tambah Kunjungan" },
+            { href: "kunjungan.createLaporan", text: "Rekap Data" },
           ]}
         />
       ),

@@ -1,11 +1,12 @@
+import React from "react";
+import { InertiaLink } from "@inertiajs/inertia-react";
+import { useForm } from "@inertiajs/inertia-react";
+
+import Authenticated from "@/Layouts/Authenticated";
 import Button from "@/Components/Button";
 import Input from "@/Components/Input";
 import Label from "@/Components/Label";
 import Select from "@/Components/Select";
-import Authenticated from "@/Layouts/Authenticated";
-import React from "react";
-import { InertiaLink } from "@inertiajs/inertia-react";
-import { useForm } from "@inertiajs/inertia-react";
 
 export default function TambahPegawai(props) {
   const [dPelayanan, setDPelayanan] = React.useState(false);

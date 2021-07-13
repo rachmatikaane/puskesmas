@@ -6,9 +6,11 @@ use App\Models\Antrian;
 use App\Models\Kunjungan;
 use App\Models\Pasien;
 use App\Models\Pelayanan;
+use App\Models\Pegawai;
 use App\Http\Requests\StoreKunjunganRequest;
 use App\Http\Requests\UpdateKunjunganRequest;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -127,6 +129,16 @@ class KunjunganController extends Controller
 
         return Inertia::render("Kunjungan/Detail", [
             "kunjungan" => ""
+        ]);
+    }
+
+    public function createLaporan() {
+        $list_kunjungan = Kunjungan::with('pasien')->with('pegawai.pelayanan')->get();
+        $petugas = Pegawai::where('id_pengguna', Auth::user()->id)->first();
+
+        return Inertia::render('Kunjungan/Laporan', [
+            "list_kunjungan" => $list_kunjungan,
+            "petugas" => $petugas
         ]);
     }
 }

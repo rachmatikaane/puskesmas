@@ -14,6 +14,8 @@ export default function Input({
   disabled,
   id,
   step,
+  min,
+  max,
 }) {
   const input = useRef();
 
@@ -41,6 +43,8 @@ export default function Input({
         placeholder={placeholder}
         required={required}
         maxLength={maxLength}
+        min={min}
+        max={max}
         onChange={(e) => handleChange(e)}
       />
     </div>

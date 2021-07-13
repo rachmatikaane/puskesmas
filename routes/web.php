@@ -119,6 +119,7 @@ Route::group([
 ], function() {
     Route::get('/', [KunjunganController::class, 'index'])->name('kunjungan');
     Route::get('/tambah', [KunjunganController::class, 'create'])->name('kunjungan.create');
+    Route::get('/laporan', [KunjunganController::class, 'createLaporan'])->name('kunjungan.createLaporan');
     Route::get('/tambah/{id_nomor_antrian}', [KunjunganController::class, 'createWithAntrian'])->name('kunjungan.createWithAntrian');
     Route::get('/tambah/{id_nomor_antrian}/{id_pasien}', [KunjunganController::class, 'createFull'])->name('kunjungan.createFull');
     Route::post('/tambah', [KunjunganController::class, 'store'])->name('kunjungan.store');

@@ -48,7 +48,7 @@ export const getStatusKunjungan = (i) => {
 };
 
 export const getMonthName = (monthInt) => {
-  switch (monthInt + 1) {
+  switch (parseInt(monthInt) + 1) {
     case 1:
       return "Januari";
     case 2:
