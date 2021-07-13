@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Antrian;
+use App\Models\Kontak;
 use App\Models\Pegawai;
 use App\Models\Pelayanan;
 use App\Models\Kunjungan;
@@ -37,10 +38,12 @@ class PemeriksaanController extends Controller
     public function create(int $id_kunjungan) {
         $kunjungan = Kunjungan::with('nomor_antrian')->with('pasien')->with('pegawai.pelayanan')->where('id', $id_kunjungan)->first();
         $list_obat = Obat::all();
+        $kontak = Kontak::all();
 
         return Inertia::render('Pemeriksaan/Tambah', [
             "kunjungan" => $kunjungan,
-            "list_obat" => $list_obat
+            "list_obat" => $list_obat,
+            "kontak" => $kontak
         ]);
     }
 
@@ -83,6 +86,7 @@ class PemeriksaanController extends Controller
     }
 
     public function show(int $id_kunjungan) {
+        $kontak = Kontak::all();
         $kunjungan = Kunjungan::with('pasien')
             ->with('pegawai.pelayanan')
             ->with('nomor_antrian')
@@ -92,7 +96,8 @@ class PemeriksaanController extends Controller
             ->first();
 
         return Inertia::render('Pemeriksaan/Detail', [
-            "kunjungan" => $kunjungan
+            "kunjungan" => $kunjungan,
+            "kontak" => $kontak
         ]);
     }
 }

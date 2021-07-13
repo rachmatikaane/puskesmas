@@ -5,10 +5,10 @@ import {
   usePagination,
   useFilters,
 } from "react-table";
-import { Inertia } from "@inertiajs/inertia";
 
 import Authenticated from "@/Layouts/Authenticated";
 import Table from "@/Components/Table";
+
 import { formatDate } from "@/Utilities/misc";
 
 export default function DaftarPemeriksaan(props) {
@@ -84,10 +84,9 @@ export default function DaftarPemeriksaan(props) {
       <div className="py-8">
         <Table
           tableInstance={tableInstance}
-          customEditIcon="print-black.svg"
           editURL="/pemeriksaan"
-          extraEditUrl="/print"
           handleDelete={() => {}}
+          withEditButton={false}
           withDateSearch={true}
           withDelete={false}
         />

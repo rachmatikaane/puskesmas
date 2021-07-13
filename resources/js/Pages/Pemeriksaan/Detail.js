@@ -1,12 +1,24 @@
 import React from "react";
 import { InertiaLink } from "@inertiajs/inertia-react";
+import { usePDF } from "@react-pdf/renderer";
 
 import Authenticated from "@/Layouts/Authenticated";
 import Button from "@/Components/Button";
+import PrintDocument from "@/Print/ResepObat";
 
 import { formatDate } from "@/Utilities/misc";
 
 export default function DetailPemeriksaan(props) {
+  const [instance, updateInstance] = usePDF({
+    document: (
+      <PrintDocument
+        kunjungan={props.kunjungan}
+        kontak={props.kontak}
+        pemeriksaan={props.kunjungan}
+      />
+    ),
+  });
+
   return (
     <Authenticated
       auth={props.auth}
@@ -140,11 +152,23 @@ export default function DetailPemeriksaan(props) {
 
         <div className="flex gap-4 justify-end">
           <Button
-            type="submit"
+            type="button"
             className="bg-blue-500 hover:bg-blue-700 flex gap-2 items-center"
           >
-            <img src="/assets/print.svg" className="h-5" />
-            Cetak Resep Obat
+            {instance.loading ? (
+              "Loading document..."
+            ) : (
+              <a
+                href={instance.url}
+                download={
+                  `${props.kunjungan.no_resep_obat}.pdf` ?? "resep_obat.pdf"
+                }
+                className="flex gap-2 items-center"
+              >
+                <img src="/assets/print.svg" className="h-5" />
+                Cetak Resep Obat
+              </a>
+            )}
           </Button>
           <InertiaLink href={route("pemeriksaan")}>
             <Button className="bg-gray-500 hover:bg-gray-700">Kembali</Button>

@@ -2,10 +2,12 @@ import React from "react";
 import { InertiaLink } from "@inertiajs/inertia-react";
 import { useForm } from "@inertiajs/inertia-react";
 import Select from "react-select";
+import { usePDF } from "@react-pdf/renderer";
 
 import Authenticated from "@/Layouts/Authenticated";
 import Button from "@/Components/Button";
 import Input from "@/Components/Input";
+import PrintDocument from "@/Print/ResepObat";
 
 import { formatDate } from "@/Utilities/misc";
 
@@ -18,12 +20,24 @@ export default function TambahPemeriksaan(props) {
       {
         id: 0,
         id_obat: 0,
+        nama: "",
         qty: 0,
         satuan: "kapsul",
         aturan_pakai: "",
       },
     ],
   });
+
+  const [instance, updateInstance] = usePDF({
+    document: (
+      <PrintDocument
+        kunjungan={props.kunjungan}
+        kontak={props.kontak}
+        pemeriksaan={data}
+      />
+    ),
+  });
+  React.useEffect(updateInstance, [data]);
 
   React.useEffect(() => {
     return () => {
@@ -46,6 +60,7 @@ export default function TambahPemeriksaan(props) {
 
           if (name === "id_obat") {
             r["satuan"] = props.list_obat.find((o) => o.id === value).satuan;
+            r["nama"] = props.list_obat.find((o) => o.id === value).nama;
           }
         }
 
@@ -70,6 +85,7 @@ export default function TambahPemeriksaan(props) {
       {
         id: data.resep_obat.length,
         id_obat: 0,
+        nama: "",
         qty: 0,
         satuan: "kapsul",
         aturan_pakai: "",
@@ -324,11 +340,21 @@ export default function TambahPemeriksaan(props) {
             Simpan
           </Button>
           <Button
-            type="submit"
+            type="button"
             className="bg-blue-500 hover:bg-blue-700 flex gap-2 items-center"
           >
-            <img src="/assets/print.svg" className="h-5" />
-            Cetak Resep Obat
+            {instance.loading ? (
+              "Loading document..."
+            ) : (
+              <a
+                href={instance.url}
+                download={`${data.no_resep}.pdf` ?? "resep_obat.pdf"}
+                className="flex gap-2 items-center"
+              >
+                <img src="/assets/print.svg" className="h-5" />
+                Cetak Resep Obat
+              </a>
+            )}
           </Button>
           <InertiaLink href={route("antrian.medis")}>
             <Button className="bg-gray-500 hover:bg-gray-700">Batal</Button>
